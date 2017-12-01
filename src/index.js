@@ -1,7 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
-
 import Desk from "./Desk";
+
+import DESKDATA from "./model";
 
 //import "temp.styl";
 
@@ -14,27 +15,37 @@ const MainStyle = {
   position: "relative",
   height: "100vh",
   padding: "0",
-  margin: "0",
+  margin: "0"
 };
 
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-const App = () => (
-  <div style={MainStyle}>
-  <table>
-      <td>
-      <div>
-        <Desk title="First desk" />
+  render() {
+    const desks = [];
+
+    var desksTemp = DESKDATA.DESKDATA;
+    //console.log(desksTemp.length);
+
+    for (var i = 0; i < desksTemp.length; i++) {
+      desks.push(
+        <td>
+          <Desk title={desksTemp[i].title} blocks={desksTemp[i].blocks} />
+        </td>
+      );
+      console.log(desksTemp[i].title);
+    }
+
+    return (
+      <div style={MainStyle}>
+        <table>{desks}</table>
       </div>
-      </td>
-      <td>
-      <div>
-          <Desk title="Second desk" />
-      </div>
-      </td>
-  </table>
-  </div>
+    );
+  }
+}
 
-  
-);
+render(<App desksList={DESKDATA} />, document.getElementById("root"));
 
-render(<App />, document.getElementById("root"));
+export default App;

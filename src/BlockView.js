@@ -1,31 +1,13 @@
 import React from "react";
 
-const BlockViewStyle = {
-  width: "90%",
-  textAlign: "left",
-  background: "#fff",
-  borderRadius: "5px",
-  borderColor: "#FaFaFa",
-  boxShadow: "1px 1px 1px rgba(0,0,0,.3)",
-  cursor: "pointer",
-  paddingBottom: "10px",
-  marginBottom: "10px",
-  zIndex: "99",
-  position: "absolute",
-  top: "0",
-  left: "0",
-  right: "0",
-  bottom: "0",
-  margin: "auto"
-};
-
 class BlockView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: props.title,
       text: props.text,
-      isVisible: false
+      isVisible: true,
+      test: props.text
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -50,14 +32,49 @@ class BlockView extends React.Component {
     console.log("BlockView.render");
     return (
       <div>
-        {this.state.isVisible && <button onClick={this.handleClick} />}
         {this.state.isVisible && (
-          <div style={BlockViewStyle}>{this.state.title}</div>
+          <div style={BlockViewStyle}>
+            <button onClick={this.handleClick}>x</button>
+            <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
+              {this.state.title}
+            </div>
+
+            <div
+              style={TextStyle}
+              dangerouslySetInnerHTML={{ __html: this.state.text }}
+            />
+          </div>
         )}
       </div>
     );
   }
 }
+
+const TextStyle = {
+  overflowY: "scroll",
+  height: "300px"
+};
+
+const BlockViewStyle = {
+  background: "#efefef",
+  borderRadius: "5px",
+  borderColor: "#fff",
+  boxShadow: "2px 2px 2px rgba(0,0,0,.3)",
+  cursor: "pointer",
+  paddingBottom: "0px",
+  zIndex: "99",
+  position: "absolute",
+  top: "100px",
+  left: "200px",
+
+  width: "600px",
+  padding: "10px",
+  paddingLeft: "40px",
+  paddingTop: "20px",
+  lineHeight: "20px"
+};
+
+const BlockInnetViewStyle = {};
 
 var publicVariable = new BlockView({
   title: "",

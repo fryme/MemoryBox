@@ -3,6 +3,8 @@ import { THEMES_DATA_0, THEMES_DATA_1, THEMES_DATA_2 } from "../model.js";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Desk from "./Desk";
 
+import "./desk.css";
+
 class DeskList extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +22,9 @@ class DeskList extends React.Component {
         var path = "/" + i;
 
         blocksTemp.push(
-          <li>
+          <td class="deskTop_name">
             <Link to={path}>{this.state.desks[i].title}</Link>
-          </li>
+          </td>
         );
       }
 
@@ -34,7 +36,7 @@ class DeskList extends React.Component {
     return (
       <Router>
         <div>
-          <ul>{blocksTemp}</ul>
+          <table>{blocksTemp}</table>
           {routes}
         </div>
       </Router>

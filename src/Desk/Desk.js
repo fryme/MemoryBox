@@ -26,13 +26,22 @@ class Desk extends React.Component {
     super(props);
     var id = parseInt(this.props.match.path[1], 10);
     var deskThemes = [];
+    var deskTitle = "";
 
-    if (id === 0) deskThemes = DESK_THEMES_DATA.THEMES_DATA_0[0].themes;
-    else if (id === 1) deskThemes = DESK_THEMES_DATA.THEMES_DATA_1[0].themes;
-    else if (id === 2) deskThemes = DESK_THEMES_DATA.THEMES_DATA_2[0].themes;
+    if (id === 0) {
+      deskThemes = DESK_THEMES_DATA.THEMES_DATA_0[0].themes;
+      deskTitle = DESK_THEMES_DATA.ALL_DESKS[0].title;
+    } else if (id === 1) {
+      deskTitle = DESK_THEMES_DATA.ALL_DESKS[1].title;
+      deskThemes = DESK_THEMES_DATA.THEMES_DATA_1[0].themes;
+    } else if (id === 2) {
+      deskTitle = DESK_THEMES_DATA.ALL_DESKS[2].title;
+      deskThemes = DESK_THEMES_DATA.THEMES_DATA_2[0].themes;
+    }
 
     this.state = {
-      themes: deskThemes
+      themes: deskThemes,
+      title: deskTitle
     };
   }
 
@@ -55,7 +64,7 @@ class Desk extends React.Component {
 
     return (
       <div style={DeskStyle}>
-        <DeskTitle />
+        <DeskTitle deskTitle={this.state.title} />
         <table>{themes}</table>
       </div>
     );

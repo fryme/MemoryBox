@@ -2,6 +2,8 @@ import React from "react";
 import { GetBlockView } from "./BlockView";
 import BlockView from "./BlockView";
 
+import "./block_style.css";
+
 //export default ({ name }) => <h1>Hello {name}!</h1>;
 
 class Block extends React.Component {
@@ -63,10 +65,6 @@ class Block extends React.Component {
   }
 
   render() {
-    var blockStyle = null;
-    if (this.state.isHovering) blockStyle = HoverStyle;
-    else blockStyle = BlockStyle;
-
     return (
       <div
         onMouseEnter={this.handleMouseHover}
@@ -76,48 +74,13 @@ class Block extends React.Component {
           <BlockView text={this.state.snippet} title={this.state.title} />
         )}
 
-        <button style={blockStyle} onClick={this.handleClick}>
-          <div style={ItemTitleStyle}>{this.state.title}</div>
-        </button>
+        <a class="blockButton" onClick={this.handleClick}>
+          <div class="blockTitle">{this.state.title}</div>
+        </a>
       </div>
     );
   }
 }
-
-const HoverStyle = {
-  width: "95%",
-  textAlign: "left",
-  background: "#e2e2e2",
-  borderRadius: "5px",
-  borderColor: "#FaFaFa",
-  //boxShadow: "1px 1px 1px rgba(0, 0, 0, .2)",
-  cursor: "pointer",
-  marginBottom: "2px",
-  outline: "none",
-  lineHeight: "20px"
-};
-
-const BlockStyle = {
-  width: "95%",
-  textAlign: "left",
-  background: "#fff",
-  borderRadius: "5px",
-  borderColor: "#FaFaFa",
-  //boxShadow: "1px 1px 1px rgba(0, 0, 0, .2)",
-  cursor: "pointer",
-  marginBottom: "2px",
-  outline: "none",
-  lineHeight: "20px"
-};
-
-const ItemTitleStyle = {
-  padding: "5px 10px",
-  whiteSpace: "normal",
-  wordWrap: "break-world",
-  fontFamily: "sans-serif"
-  //fontWeight: "bolder"
-  //fontSize: "8px",
-};
 
 const ItemSnippetStyle = {
   padding: "5px 10px",

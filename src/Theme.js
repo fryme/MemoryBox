@@ -1,6 +1,6 @@
 import React from "react";
 import Block from "./Block";
-//import Popover from "./Click"
+import "./block_style.css";
 
 //export default ({ name }) => <h1>Hello {name}!</h1>;
 
@@ -66,23 +66,19 @@ class Theme extends React.Component {
     }
     return (
       <div style={ThemeStyle}>
-        <div style={Row}>
-          <div style={Column}>
-            <div style={ThemeTitleStyle}>{this.state.title}</div>
-          </div>
+        <div class="themeRow">
+          <div class="themeTitleStyle">{this.state.title}</div>
         </div>
-        <div style={Row}>{blocksTemp}</div>
-        <button
+        <div class="themeRow">{blocksTemp}</div>
+        <a
           style={{
-            backgroundColor: "#e2e4e6",
-            marginLeft: "80px",
-            textAlign: "center",
-            cursor: "pointer",
-            border: "none"
+            marginLeft: "15px",
+            textAlign: "left",
+            cursor: "pointer"
           }}
         >
           Добавить карточку...
-        </button>
+        </a>
       </div>
     );
   }
@@ -102,32 +98,12 @@ const ThemeStyle = {
   backgroundColor: "#e2e4e6",
   boxShadow: "1px 1px 1px rgba(0, 0, 0, .5)",
   borderRadius: "3px",
-  paddingBottom: "20px",
+  paddingBottom: "10px",
   marginRight: "10px",
   marginLeft: "10px",
   verticalAlign: "top"
 };
 
-const Row = {
-  display: "table",
-  width: "100%" /*Optional*/,
-  tableLayout: "fixed" /*Optional*/,
-  borderSpacing: "10px" /*Optional*/,
-  overflowY: "scroll"
-};
-
-const Column = {
-  display: "table-cell"
-  //backgroundColor: "red" /*Optional*/
-};
-
-const ThemeTitleStyle = {
-  position: "relative",
-  padding: "5px 8px",
-  fontWeight: "bold",
-  whiteSpace: "normal",
-  width: "100%"
-  //fontSize: "8px"
-};
+const ThemeTitleStyle = {};
 
 export default Theme;

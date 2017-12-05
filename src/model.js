@@ -93,7 +93,7 @@ export default {
   ALL_DESKS: [
     {
       id: 0,
-      title: "Linux"
+      title: "Some Hard Theme"
     },
     {
       id: 1,
@@ -101,7 +101,7 @@ export default {
     },
     {
       id: 2,
-      title: "WorldOfCpp"
+      title: "WorldOfLanguage"
     }
   ],
 

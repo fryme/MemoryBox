@@ -1,19 +1,18 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import DeskButton from "./DeskButton";
+import "./desk.css";
 
-class MenuButton extends React.Component {
+class DeskButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Menu"
+      name: props.buttonName
     };
   }
 
   render() {
     return (
       <div>
-        <button> {this.state.title} </button>
+        <a class="deskButton">{this.state.name}</a>
       </div>
     );
   }
@@ -29,9 +28,17 @@ class DeskTitle extends React.Component {
 
   render() {
     return (
-      <div>
-        <DeskButton name={this.state.title} />
-        <MenuButton />
+      <div class="deskTitle">
+        <table>
+          <td>
+            <DeskButton buttonName={this.state.title} />
+          </td>
+          <td style={{ color: "white" }}>|</td>
+          <td>
+            <DeskButton buttonName="Menu" />
+          </td>
+          <td style={{ color: "white" }}>|</td>
+        </table>
       </div>
     );
   }

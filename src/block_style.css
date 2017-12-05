@@ -1,0 +1,50 @@
+.blockButton {
+  -moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  width: 95%;
+  background-color: #fff;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: #666666;
+  font-family: Arial;
+  font-size: 14px;
+  text-decoration: none;
+  margin-bottom: 3px;
+  line-height: 20px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+.blockButton:hover {
+  background-color: #eeeeee;
+}
+.blockButton:active {
+  position: relative;
+  top: 1px;
+}
+
+.blockTitle {
+  padding: 5px 10px;
+  white-space: normal;
+  word-wrap: break-world;
+  font-family: sans-serif;
+}
+
+.themeTitleStyle {
+  position: relative;
+  padding: 5px 8px;
+  font-weight: bold;
+  white-space: normal;
+  width: 100%;
+}
+
+.themeRow {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 5px;
+  overflow-y: scroll;
+}

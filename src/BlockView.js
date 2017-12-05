@@ -55,6 +55,12 @@ const TextStyle = {
   height: "300px"
 };
 
+var publicVariable = new BlockView({
+  title: "",
+  text: "",
+  isVisible: false
+});
+
 const BlockViewStyle = {
   background: "#efefef",
   borderRadius: "5px",
@@ -73,14 +79,6 @@ const BlockViewStyle = {
   paddingTop: "20px",
   lineHeight: "20px"
 };
-
-const BlockInnetViewStyle = {};
-
-var publicVariable = new BlockView({
-  title: "",
-  text: "",
-  isVisible: false
-});
 
 export default BlockView;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { GetBlockView } from "./BlockView";
-import BlockView from "./BlockView";
+import { connect } from "react-redux";
 
 import "./block_style.css";
 
@@ -34,8 +34,9 @@ class Block extends React.Component {
 
   handleClick() {
     console.log("Block.handleClick");
-    var bv = GetBlockView();
     //bv.handleClick();
+
+    this.props.onSetBlockViewVisibleState(true);
 
     this.setState(prevState => ({
       viewOpen: !prevState.viewOpen
@@ -70,12 +71,8 @@ class Block extends React.Component {
         onMouseEnter={this.handleMouseHover}
         onMouseLeave={this.handleMouseHover}
       >
-        {this.state.viewOpen && (
-          <BlockView text={this.state.snippet} title={this.state.title} />
-        )}
-
-        <a class="blockButton" onClick={this.handleClick}>
-          <div class="blockTitle">{this.state.title}</div>
+        <a className="blockButton" onClick={this.handleClick}>
+          <div className="blockTitle">{this.state.title}</div>
         </a>
       </div>
     );
@@ -102,4 +99,14 @@ const ButtonStyle = {
   height: "100%",
   textAlign: "left"
 };
-export default Block;
+
+export default connect(
+  state => ({
+    testStore: state
+  }),
+  dispatch => ({
+    onSetBlockViewVisibleState: isVisible => {
+      dispatch({ type: "SET_BLOCKVIEW_VISIBLE", payload: isVisible });
+    }
+  })
+)(Block);

@@ -66,10 +66,10 @@ class Theme extends React.Component {
     }
     return (
       <div style={ThemeStyle}>
-        <div class="themeRow">
-          <div class="themeTitleStyle">{this.state.title}</div>
+        <div className="themeRow">
+          <div className="themeTitleStyle">{this.state.title}</div>
         </div>
-        <div class="themeRow">{blocksTemp}</div>
+        <div className="themeRow">{blocksTemp}</div>
         <a
           style={{
             marginLeft: "15px",

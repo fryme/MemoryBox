@@ -2,8 +2,9 @@ import React from "react";
 import { render } from "react-dom";
 import Theme from "../Theme";
 import DeskTitle from "./DeskTitle";
+import BlockView from "../BlockView";
 
-import DESK_THEMES_DATA from "../model";
+import DESK_THEMES_DATA from "../api/model.js";
 
 //import { THEMES_DATA_0, THEMES_DATA_1, THEMES_DATA_2} from "./model";
 
@@ -66,6 +67,7 @@ class Desk extends React.Component {
       <div style={DeskStyle}>
         <DeskTitle deskTitle={this.state.title} />
         <table>{themes}</table>
+        <BlockView />
       </div>
     );
   }

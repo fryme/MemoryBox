@@ -1,4 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
+import watch from "redux-watch";
+import store from "./index.js";
+import { bindActionCreators } from 'redux';
+
+import * as deskActions from "./actions/deskActions";
 
 class BlockView extends React.Component {
   constructor(props) {
@@ -6,12 +12,30 @@ class BlockView extends React.Component {
     this.state = {
       title: props.title,
       text: props.text,
-      isVisible: true,
+      isVisible: false,
       test: props.text
     };
-
     // This binding is necessary to make `this` work in the callback
+
     this.handleClick = this.handleClick.bind(this);
+    /*
+    let w = watch(store, "admin.name");
+    store.subscribe(
+      w((newVal, oldVal, objectPath) => {
+        console.log("%s changed from %s to %s", objectPath, oldVal, newVal);
+      })
+    );
+    */
+
+    /*
+    store.subscribe(() => {
+      console.log("BlockView:" + store.getState());
+    });
+    */
+  }
+
+  setBlockViewVisibleState() {
+    console.log("setBlockViewVisibleState");
   }
 
   setVisible() {
@@ -23,28 +47,29 @@ class BlockView extends React.Component {
 
   handleClick() {
     console.log("BlockView.handleClick");
+
+    this.props.onSetBlockViewVisibleState(false);
+
     this.setState(prevState => ({
       isVisible: !prevState.isVisible
     }));
   }
 
   render() {
-    console.log("BlockView.render");
+    console.log("BlockView.render" + this.props.isVisible);
     return (
       <div>
-        {this.state.isVisible && (
-          <div style={BlockViewStyle}>
-            <button onClick={this.handleClick}>x</button>
-            <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
-              {this.state.title}
-            </div>
-
-            <div
-              style={TextStyle}
-              dangerouslySetInnerHTML={{ __html: this.state.text }}
-            />
+        <div style={BlockViewStyle} onClick={this.handleClick}>
+          <button onClick={this.handleClick}>x</button>
+          <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
+            {this.state.title}
           </div>
-        )}
+
+          <div
+            style={TextStyle}
+            dangerouslySetInnerHTML={{ __html: this.state.text }}
+          />
+        </div>
       </div>
     );
   }
@@ -54,12 +79,6 @@ const TextStyle = {
   overflowY: "scroll",
   height: "300px"
 };
-
-var publicVariable = new BlockView({
-  title: "",
-  text: "",
-  isVisible: false
-});
 
 const BlockViewStyle = {
   background: "#efefef",
@@ -80,8 +99,26 @@ const BlockViewStyle = {
   lineHeight: "20px"
 };
 
-export default BlockView;
-
-export function GetBlockView() {
-  return publicVariable;
+function mapStateToProps(state, ownProps) {
+  return {
+    isVisible: state.isVisible
+  };
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(deskActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+  /*
+  dispatch => ({
+    onSetBlockViewVisibleState: isVisible => {
+      dispatch({ type: "SET_BLOCKVIEW_VISIBLE", payload: isVisible });
+    }
+  })
+  */
+)(BlockView);

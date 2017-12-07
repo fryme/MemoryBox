@@ -12,7 +12,7 @@ class DeskButton extends React.Component {
   render() {
     return (
       <div>
-        <a class="deskButton">{this.state.name}</a>
+        <a className="deskButton">{this.state.name}</a>
       </div>
     );
   }
@@ -28,7 +28,7 @@ class DeskTitle extends React.Component {
 
   render() {
     return (
-      <div class="deskTitle">
+      <div className="deskTitle">
         <table>
           <td>
             <DeskButton buttonName={this.state.title} />

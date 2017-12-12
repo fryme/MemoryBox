@@ -48,9 +48,13 @@ class BlockView extends React.Component {
   handleClick() {
     console.log("BlockView.handleClick");
 
-    this.props.onSetBlockViewVisibleState(false);
-
+    //this.props.onSetBlockViewVisibleState(false);
+    //deskActions.setBlockViewVisible(false);
+    //dispatch(deskActions.setBlockViewVisible(true));
+    this.setState({ isBlockViewVisible: 1 });
+    
     this.setState(prevState => ({
+      isBlockViewVisible: false,
       isVisible: !prevState.isVisible
     }));
   }
@@ -100,8 +104,9 @@ const BlockViewStyle = {
 };
 
 function mapStateToProps(state, ownProps) {
+  console.log("mapStateToProps " + state.isBlockViewVisible);
   return {
-    isVisible: state.isVisible
+    isBlockViewVisible: state.isBlockViewVisible
   };
 }
 
@@ -114,11 +119,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-  /*
-  dispatch => ({
-    onSetBlockViewVisibleState: isVisible => {
-      dispatch({ type: "SET_BLOCKVIEW_VISIBLE", payload: isVisible });
-    }
-  })
-  */
 )(BlockView);

@@ -3,6 +3,21 @@
 //   body: form
 // })
 
+import ALL_DESKS from "./model";
+
+class MemoryBoxesApi {
+  static getAllDesks() {
+    return fetch('http://localhost:5000/api/v1/cats').then(response => {
+      return response.json();
+    }).catch(error => {
+      return ALL_DESKS.ALL_DESKS;
+      return error;
+    });
+  }
+}
+
+export default MemoryBoxesApi;
+
 /*
 class CatsApi {
   
@@ -63,12 +78,4 @@ class CatsApi {
 }
 */
 
-import ALL_DESKS from "./model";
 
-class MemoryBoxesApi {
-  static getAllDesks() {
-    return ALL_DESKS.ALL_DESKS;
-  }
-}
-
-export default MemoryBoxesApi;

@@ -18,7 +18,7 @@ class DeskList extends React.Component {
     const routes = [];
     const desks = this.props.desks;
 
-    console.log("DeskList::render: ")
+    console.log("DeskList::render: " + this.props.desks.length)
 
     if (desks) {
       for (var i = 0; i < desks.length; i++) {

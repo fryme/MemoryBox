@@ -3,6 +3,9 @@ import { render } from "react-dom";
 import Theme from "../Theme";
 import DeskTitle from "./DeskTitle";
 import BlockView from "../BlockView";
+import { connect } from 'react-redux';
+import * as deskActions from '../actions/deskActions';
+import { bindActionCreators } from 'redux';
 
 import DESK_THEMES_DATA from "../api/model.js";
 
@@ -10,17 +13,6 @@ import DESK_THEMES_DATA from "../api/model.js";
 
 //import "temp.styl";
 
-const DeskStyle = {
-  font: '14px "Helvetica Neue", Arial, Helvetica, sans-serif',
-  color: "#4d4d4d",
-  fontWeight: "normal",
-  padding: "0 10px",
-  backgroundColor: "rgb(0, 121, 191)",
-  position: "relative",
-  height: "100vh",
-  padding: "0",
-  margin: "0"
-};
 
 class Desk extends React.Component {
   constructor(props) {
@@ -44,10 +36,13 @@ class Desk extends React.Component {
       themes: deskThemes,
       title: deskTitle
     };
+
+    //deskActions.setBlockViewVisible(false);
   }
 
   render() {
     const themes = [];
+    console.log("Desk::render: " + this.props.isBlockViewVisible);
 
     if (this.state.themes) {
       for (var i = 0; i < this.state.themes.length; i++) {
@@ -73,4 +68,28 @@ class Desk extends React.Component {
   }
 }
 
-export default Desk;
+function mapStateToProps(state, ownProps) {
+  return {
+    isBlockViewVisible: state.isBlockViewVisible
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(deskActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Desk);
+
+const DeskStyle = {
+  font: '14px "Helvetica Neue", Arial, Helvetica, sans-serif',
+  color: "#4d4d4d",
+  fontWeight: "normal",
+  padding: "0 10px",
+  backgroundColor: "rgb(0, 121, 191)",
+  position: "relative",
+  height: "100vh",
+  padding: "0",
+  margin: "0"
+};

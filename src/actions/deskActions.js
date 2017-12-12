@@ -1,25 +1,31 @@
 import * as types from "./actionTypes";
-import * as Api from "../api/MemoryBoxesApi";
+import MemoryBoxesApi from "../api/MemoryBoxesApi";
 
 export function loadDesksSuccess(desks) {
-  return { type: types.LOAD_CATS_SUCCESS, desks };
+  return   {  type: types.LOAD_DESKS_SUCCESS,    desks   };
 }
 
 export function loadDesks() {
   // make async call to api, handle promise, dispatch action when promise is resolved
   return function(dispatch) {
-    /*
-    return Api.getAllDesks()
-      .then(desks => {
-        dispatch(loadDesksSuccess(desks));
-      })
-      .catch(error => {
-        throw error;
-      });
-      */
-    
+    return MemoryBoxesApi.getAllDesks().then(desks =>
+    {
+      dispatch(loadDesksSuccess(desks));
+    }).catch(error => {
+      throw (error);
+    });
   };
-  return Api.getAllDesks();
+  //return Api.getAllDesks();
+}
+
+export function setBlockViewVisibleSuccess(isBlockViewVisible) {
+  return { type: types.SET_BLOCKVIEW_VISIBLE, isBlockViewVisible };
+}
+
+export function setBlockViewVisible(isBlockViewVisible) {
+  return function (dispatch) {
+    dispatch(setBlockViewVisibleSuccess(isBlockViewVisible));
+  };
 }
 
 /*

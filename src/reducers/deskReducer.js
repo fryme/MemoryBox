@@ -31,6 +31,7 @@ export default function deskReducer(state = initialState.desks, action) {
     }
     */
     default:
+      console.log("deskReducer");
       return state;
   }
 }

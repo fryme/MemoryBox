@@ -9,10 +9,11 @@ import { combineReducers } from "redux";
 import * as Api from "./api/MemoryBoxesApi.js";
 import configureStore from "./configureStore"
 
-import { loadDesks } from "./actions/deskActions";
+import { loadDesks, setBlockViewVisible } from "./actions/deskActions";
 
 const initialState = ["isBlockViewVisible=false"];
 
+/*
 function storeCallback(state = initialState, action) {
   console.log("storeCallback 0");
 
@@ -35,12 +36,14 @@ function storeCallback(state = initialState, action) {
 
   return newState;
 }
-
+*/
 
 //const store = createStore(storeCallback);
 const store = configureStore();
 
 store.dispatch(loadDesks());
+store.dispatch(setBlockViewVisible(false));
+
 //store.dispatch(loadHobbies());
 
 class App extends React.Component {
@@ -53,6 +56,7 @@ class App extends React.Component {
   }
 }
 
+/*
 export default connect(
   state => ({
     testStore: state
@@ -63,6 +67,7 @@ export default connect(
     }
   })
 )(App);
+*/
 
 render(
   <Provider store={store}>

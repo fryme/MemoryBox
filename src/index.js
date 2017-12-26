@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { combineReducers } from "redux";
 import * as Api from "./api/MemoryBoxesApi.js";
 import configureStore from "./configureStore"
+import PropTypes from 'prop-types'
 
 import { loadDesks, setBlockViewVisible } from "./actions/deskActions";
 
@@ -47,8 +48,16 @@ store.dispatch(setBlockViewVisible(false));
 //store.dispatch(loadHobbies());
 
 class App extends React.Component {
+  static propTypes = {
+    desks: PropTypes.array.isRequired,
+    isBlockViewVisible: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
+    store.dispatch(setBlockViewVisible(true));
+    store.dispatch(setBlockViewVisible(true));
   }
 
   render() {

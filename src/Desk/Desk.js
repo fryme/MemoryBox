@@ -4,8 +4,9 @@ import Theme from "../Theme";
 import DeskTitle from "./DeskTitle";
 import BlockView from "../BlockView";
 import { connect } from 'react-redux';
-import * as deskActions from '../actions/deskActions';
+import { setBlockViewVisible } from "../actions/deskActions";
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types'
 
 import DESK_THEMES_DATA from "../api/model.js";
 
@@ -15,6 +16,11 @@ import DESK_THEMES_DATA from "../api/model.js";
 
 
 class Desk extends React.Component {
+  static propTypes = {
+    isBlockViewVisible: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
     var id = parseInt(this.props.match.path[1], 10);
@@ -36,7 +42,6 @@ class Desk extends React.Component {
       themes: deskThemes,
       title: deskTitle
     };
-
     //deskActions.setBlockViewVisible(false);
   }
 
@@ -76,11 +81,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(deskActions, dispatch)
+    actions: bindActionCreators(setBlockViewVisible, dispatch)
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Desk);
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps)
+(Desk);
 
 const DeskStyle = {
   font: '14px "Helvetica Neue", Arial, Helvetica, sans-serif',

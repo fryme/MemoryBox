@@ -4,13 +4,25 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Desk from "./Desk";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as deskActions from '../actions/deskActions';
+import { setBlockViewVisible } from "../actions/deskActions";
+import PropTypes from 'prop-types'
 
 import "./desk.css";
 
 class DeskList extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
+    const { dispatch } = this.props;
+    
+    
+  }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    this.props.dispatch(setBlockViewVisible(false ));
   }
 
   render() {
@@ -56,10 +68,14 @@ function mapStateToProps(state, ownProps) {
   return { desks: state.desks };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(deskActions, dispatch)
+    isVisible: (st) => {dispatch(setBlockViewVisible(st))
+    }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeskList);
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps)
+(DeskList);

@@ -23,6 +23,7 @@ export function setBlockViewVisibleSuccess(isBlockViewVisible) {
 }
 
 export function setBlockViewVisible(isBlockViewVisible) {
+  console.log("setBlockViewVisible!!");
   return function (dispatch) {
     dispatch(setBlockViewVisibleSuccess(isBlockViewVisible));
   };

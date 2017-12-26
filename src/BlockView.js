@@ -3,10 +3,17 @@ import { connect } from "react-redux";
 import watch from "redux-watch";
 import store from "./index.js";
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types'
 
 import * as deskActions from "./actions/deskActions";
 
 class BlockView extends React.Component {
+  static propTypes = {
+    isBlockViewVisible: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+  }
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -51,18 +58,23 @@ class BlockView extends React.Component {
     //this.props.onSetBlockViewVisibleState(false);
     //deskActions.setBlockViewVisible(false);
     //dispatch(deskActions.setBlockViewVisible(true));
-    this.setState({ isBlockViewVisible: 1 });
-    
+    //this.setState({ isBlockViewVisible: 1 });
+    /*
     this.setState(prevState => ({
-      isBlockViewVisible: false,
+      isBlockViewVisible: !prevState.isVisible,
       isVisible: !prevState.isVisible
     }));
+    */
+    deskActions.setBlockViewVisibleState(false);
+    //this.props.dispatch(deskActions.setBlockViewVisibleState(false));
   }
 
   render() {
-    console.log("BlockView.render" + this.props.isVisible);
+    const { isBlockViewVisible } = this.props
+    console.log("BlockView.render" + isBlockViewVisible);
     return (
       <div>
+      
         <div style={BlockViewStyle} onClick={this.handleClick}>
           <button onClick={this.handleClick}>x</button>
           <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
@@ -104,10 +116,18 @@ const BlockViewStyle = {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log("mapStateToProps " + state.isBlockViewVisible);
+  console.log("BlockView mapStateToProps " + state.isBlockViewVisible.isBlockViewVisible);
+  
   return {
-    isBlockViewVisible: state.isBlockViewVisible
+    isVisible: state.isBlockViewVisible.isBlockViewVisible
   };
+
+/*
+  const { isBlockViewVisible } = state
+  return {
+    this.state.isVisible = state.isBlockViewVisible
+  }
+*/
 }
 
 function mapDispatchToProps(dispatch) {

@@ -2,7 +2,7 @@ import React from "react";
 import Block from "./Block";
 import "./block_style.css";
 import { connect } from "react-redux";
-import { setBlockViewVisible } from "./actions/deskActions";
+import { setBlockViewVisible, setBlockViewOpenedId } from "./actions/deskActions";
 
 //export default ({ name }) => <h1>Hello {name}!</h1>;
 /*
@@ -39,6 +39,7 @@ class Theme extends React.Component {
     this.state = {
       title: props.title,
       blocks: props.blocks,
+      id: props.id
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -47,6 +48,7 @@ class Theme extends React.Component {
   handleClick() {
     console.log("Theme.handleClick");
     const { dispatch } = this.props
+    dispatch(setBlockViewOpenedId(this.state.id))
     dispatch(setBlockViewVisible(true))
   }
 
@@ -85,6 +87,7 @@ class Theme extends React.Component {
 
 
 function mapStateToProps(state, ownProps) {
+  return {}
 }
 
 export default connect(

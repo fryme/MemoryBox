@@ -24,8 +24,8 @@ class Desk extends React.Component {
     var deskTitle = "";
 
     if (id === 0) {
-      deskThemes = DESK_THEMES_DATA.THEMES_DATA_0[0].themes;
       deskTitle = DESK_THEMES_DATA.ALL_DESKS[0].title;
+      deskThemes = DESK_THEMES_DATA.THEMES_DATA_0[0].themes;
     } else if (id === 1) {
       deskTitle = DESK_THEMES_DATA.ALL_DESKS[1].title;
       deskThemes = DESK_THEMES_DATA.THEMES_DATA_1[0].themes;
@@ -53,6 +53,7 @@ class Desk extends React.Component {
             <Theme
               title={this.state.themes[i].title}
               blocks={this.state.themes[i].blocks}
+              id={i}
             />
           </td>
         );
@@ -72,7 +73,7 @@ class Desk extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    isBlockViewVisible: state.isBlockViewVisible
+    isVisible: state.isVisible
   };
 }
 

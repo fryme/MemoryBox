@@ -9,7 +9,7 @@ import { loadDesks, setBlockViewVisible } from "./actions/deskActions";
 const store = configureStore();
 
 store.dispatch(loadDesks());
-store.dispatch(setBlockViewVisible(false));
+//store.dispatch(setBlockViewVisible(false));
 
 //store.dispatch(loadHobbies());
 

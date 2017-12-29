@@ -18,14 +18,32 @@ export function loadDesks() {
   //return Api.getAllDesks();
 }
 
+const fetchTheme = themeId => dispatch => {
+  dispatch(requestTheme(themeId))
+  return fetch(`localhost/r/${themeId}.json`)
+    .then(response => response.json())
+    .then(json => dispatch(receivePosts(subreddit, json)))
+}
+
+
 export function setBlockViewVisibleSuccess(isBlockViewVisible) {
   return { type: types.SET_BLOCKVIEW_VISIBLE, isBlockViewVisible };
 }
 
 export function setBlockViewVisible(isBlockViewVisible) {
-  console.log("setBlockViewVisible!!" + isBlockViewVisible);
+  //console.log("setBlockViewVisible!!" + isBlockViewVisible);
   return function (dispatch) {
     dispatch(setBlockViewVisibleSuccess(isBlockViewVisible));
+  };
+}
+
+export function setBlockViewOpenedIdSuccess(blockViewOpenedId) {
+  return { type: types.SET_BLOCKVIEW_OPENED_ID, blockViewOpenedId };
+}
+
+export function setBlockViewOpenedId(blockViewOpenedId) {
+  return function (dispatch) {
+    dispatch(setBlockViewOpenedIdSuccess(blockViewOpenedId));
   };
 }
 

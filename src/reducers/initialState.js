@@ -1,4 +1,6 @@
 export default {
   desks: [],
-  isBlockViewVisible: false
+  blockView: {isVisible: false, openedThemeId: -1}
+  //isBlockViewVisible: false,
+  //blockViewOpenedId: -1
 }

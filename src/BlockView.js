@@ -20,32 +20,30 @@ class BlockView extends React.Component {
       title: props.title,
       text: props.text,
       isVisible: false,
-      test: props.text
+      themeId: -1
     };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    console.log("BlockView.handleClick");
     const { dispatch } = this.props
     dispatch(setBlockViewVisible(!this.props.isVisible))
   }
 
   componentDidMount() {
-    //const { dispatch } = this.props
-    //console.log("componentDidMount: " + dispatch)
-    //const { dispatch, selectedSubreddit } = this.props
-    //console.log("BlockView::componentDidMount " + JSON.stringify(this.props));
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("BlockView::componentWillReceiveProps " + JSON.stringify(nextProps));
+    //console.log("BlockView::componentWillReceiveProps " + JSON.stringify(nextProps));
+    
+    if (nextProps.themeId != -1 && this.props.themeId != nextProps.themeId)
+    {
+      console.log("Reload with: " + nextProps.themeId);
+    }
   }
   
   render() {
-    //const { isBlockViewVisible } = this.props
-    //console.log("BlockView.render isBlockViewVisible=" + this.props.isVisible);
     return (
       <div>
         {this.props.isVisible &&
@@ -65,11 +63,11 @@ class BlockView extends React.Component {
   }
 }
 
-
 function mapStateToProps(state, ownProps) {
-  //console.log("BlockView mapStateToProps " + dispatch);
+  //console.log("BlockView mapStateToProps " + JSON.stringify(state));
   return {
-    isVisible: state.isBlockViewVisible.isBlockViewVisible
+    isVisible: state.blockView.isVisible,
+    themeId: state.blockView.themeId
   };
 }
 

@@ -6,13 +6,13 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types'
 
 import * as deskActions from "./actions/deskActions";
+import { setBlockViewVisible } from "./actions/deskActions";
 
 class BlockView extends React.Component {
   static propTypes = {
-    isBlockViewVisible: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
+    isVisible: PropTypes.bool.isRequired,
+    //dispatch: PropTypes.func.isRequired
   }
-
 
   constructor(props) {
     super(props);
@@ -22,74 +22,70 @@ class BlockView extends React.Component {
       isVisible: false,
       test: props.text
     };
-    // This binding is necessary to make `this` work in the callback
 
     this.handleClick = this.handleClick.bind(this);
-    /*
-    let w = watch(store, "admin.name");
-    store.subscribe(
-      w((newVal, oldVal, objectPath) => {
-        console.log("%s changed from %s to %s", objectPath, oldVal, newVal);
-      })
-    );
-    */
-
-    /*
-    store.subscribe(() => {
-      console.log("BlockView:" + store.getState());
-    });
-    */
-  }
-
-  setBlockViewVisibleState() {
-    console.log("setBlockViewVisibleState");
-  }
-
-  setVisible() {
-    console.log("BlockView.setVisible");
-    this.setState(prevState => ({
-      isVisible: !prevState.isVisible
-    }));
   }
 
   handleClick() {
     console.log("BlockView.handleClick");
-
-    //this.props.onSetBlockViewVisibleState(false);
-    //deskActions.setBlockViewVisible(false);
-    //dispatch(deskActions.setBlockViewVisible(true));
-    //this.setState({ isBlockViewVisible: 1 });
-    /*
-    this.setState(prevState => ({
-      isBlockViewVisible: !prevState.isVisible,
-      isVisible: !prevState.isVisible
-    }));
-    */
-    deskActions.setBlockViewVisibleState(false);
-    //this.props.dispatch(deskActions.setBlockViewVisibleState(false));
+    const { dispatch } = this.props
+    dispatch(setBlockViewVisible(!this.props.isVisible))
   }
 
+  componentDidMount() {
+    //const { dispatch } = this.props
+    //console.log("componentDidMount: " + dispatch)
+    //const { dispatch, selectedSubreddit } = this.props
+    //console.log("BlockView::componentDidMount " + JSON.stringify(this.props));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("BlockView::componentWillReceiveProps " + JSON.stringify(nextProps));
+  }
+  
   render() {
-    const { isBlockViewVisible } = this.props
-    console.log("BlockView.render" + isBlockViewVisible);
+    //const { isBlockViewVisible } = this.props
+    //console.log("BlockView.render isBlockViewVisible=" + this.props.isVisible);
     return (
       <div>
-      
+        {this.props.isVisible &&
         <div style={BlockViewStyle} onClick={this.handleClick}>
           <button onClick={this.handleClick}>x</button>
           <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
             {this.state.title}
           </div>
-
           <div
             style={TextStyle}
             dangerouslySetInnerHTML={{ __html: this.state.text }}
           />
         </div>
+        }
       </div>
     );
   }
 }
+
+
+function mapStateToProps(state, ownProps) {
+  //console.log("BlockView mapStateToProps " + dispatch);
+  return {
+    isVisible: state.isBlockViewVisible.isBlockViewVisible
+  };
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    //actions: bindActionCreators(deskActions, dispatch)
+  };
+}
+
+
+export default connect(
+  mapStateToProps//,
+  //mapDispatchToProps
+)(BlockView);
+
 
 const TextStyle = {
   overflowY: "scroll",
@@ -114,29 +110,3 @@ const BlockViewStyle = {
   paddingTop: "20px",
   lineHeight: "20px"
 };
-
-function mapStateToProps(state, ownProps) {
-  console.log("BlockView mapStateToProps " + state.isBlockViewVisible.isBlockViewVisible);
-  
-  return {
-    isVisible: state.isBlockViewVisible.isBlockViewVisible
-  };
-
-/*
-  const { isBlockViewVisible } = state
-  return {
-    this.state.isVisible = state.isBlockViewVisible
-  }
-*/
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(deskActions, dispatch)
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BlockView);

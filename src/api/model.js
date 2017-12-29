@@ -1,3 +1,4 @@
+/*
 const DESK_THEMES_DATA = {
   themes: [
     [
@@ -88,7 +89,7 @@ const DESK_THEMES_DATA = {
     ]
   ]
 };
-
+*/
 export default {
   ALL_DESKS: [
     {

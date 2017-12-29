@@ -11,7 +11,7 @@ class MemoryBoxesApi {
       return response.json();
     }).catch(error => {
       return ALL_DESKS.ALL_DESKS;
-      return error;
+      //return error;
     });
   }
 }

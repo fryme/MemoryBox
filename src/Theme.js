@@ -1,9 +1,11 @@
 import React from "react";
 import Block from "./Block";
 import "./block_style.css";
+import { connect } from "react-redux";
+import { setBlockViewVisible } from "./actions/deskActions";
 
 //export default ({ name }) => <h1>Hello {name}!</h1>;
-
+/*
 class Toggle extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +30,7 @@ class Toggle extends React.Component {
     );
   }
 }
+*/
 
 class Theme extends React.Component {
   constructor(props) {
@@ -36,19 +39,15 @@ class Theme extends React.Component {
     this.state = {
       title: props.title,
       blocks: props.blocks,
-      popupVisible: false
     };
 
-    // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-    this.setState(prevState => ({
-      popupVisible: !prevState.popupVisible
-    }));
-
     console.log("Theme.handleClick");
+    const { dispatch } = this.props
+    dispatch(setBlockViewVisible(true))
   }
 
   render() {
@@ -57,7 +56,7 @@ class Theme extends React.Component {
     if (this.state.blocks) {
       for (var i = 0; i < this.state.blocks.length; i++) {
         blocksTemp.push(
-          <Block
+          <Block key={i}
             title={this.state.blocks[i].title}
             snippet={this.state.blocks[i].data}
           />
@@ -69,7 +68,7 @@ class Theme extends React.Component {
         <div className="themeRow">
           <div className="themeTitleStyle">{this.state.title}</div>
         </div>
-        <div className="themeRow">{blocksTemp}</div>
+        <div onClick={this.handleClick} className="themeRow">{blocksTemp}</div>
         <a
           style={{
             marginLeft: "15px",
@@ -83,6 +82,15 @@ class Theme extends React.Component {
     );
   }
 }
+
+
+function mapStateToProps(state, ownProps) {
+}
+
+export default connect(
+  mapStateToProps//,
+  //mapDispatchToProps
+)(Theme);
 
 const BlockListStyle = {
   overflowY: "scroll",
@@ -105,5 +113,3 @@ const ThemeStyle = {
 };
 
 const ThemeTitleStyle = {};
-
-export default Theme;

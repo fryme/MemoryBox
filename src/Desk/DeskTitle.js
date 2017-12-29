@@ -30,6 +30,8 @@ class DeskTitle extends React.Component {
     return (
       <div className="deskTitle">
         <table>
+          <tbody>
+          <tr>
           <td>
             <DeskButton buttonName={this.state.title} />
           </td>
@@ -38,6 +40,8 @@ class DeskTitle extends React.Component {
             <DeskButton buttonName="Menu" />
           </td>
           <td style={{ color: "white" }}>|</td>
+          </tr>
+          </tbody>
         </table>
       </div>
     );

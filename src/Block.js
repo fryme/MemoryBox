@@ -26,6 +26,7 @@ class Block extends React.Component {
     this.setState(this.toggleHoverState);
   }
 
+  
   toggleHoverState(state) {
     return {
       isHovering: !state.isHovering

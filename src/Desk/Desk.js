@@ -6,7 +6,7 @@ import BlockView from "../BlockView";
 import { connect } from 'react-redux';
 import { setBlockViewVisible } from "../actions/deskActions";
 import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 
 import DESK_THEMES_DATA from "../api/model.js";
 
@@ -16,10 +16,6 @@ import DESK_THEMES_DATA from "../api/model.js";
 
 
 class Desk extends React.Component {
-  static propTypes = {
-    isBlockViewVisible: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired
-  }
 
   constructor(props) {
     super(props);
@@ -52,7 +48,8 @@ class Desk extends React.Component {
     if (this.state.themes) {
       for (var i = 0; i < this.state.themes.length; i++) {
         themes.push(
-          <td>
+          
+          <td key={i}>
             <Theme
               title={this.state.themes[i].title}
               blocks={this.state.themes[i].blocks}
@@ -66,7 +63,7 @@ class Desk extends React.Component {
     return (
       <div style={DeskStyle}>
         <DeskTitle deskTitle={this.state.title} />
-        <table>{themes}</table>
+        <table><tbody><tr>{themes}</tr></tbody></table>
         <BlockView />
       </div>
     );

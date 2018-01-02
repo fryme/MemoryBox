@@ -1,49 +1,61 @@
 import * as types from "./actionTypes";
 import MemoryBoxesApi from "../api/MemoryBoxesApi";
+import * as model from "../api/model.js"
 
-export function loadDesksSuccess(desks) {
-  return   {  type: types.LOAD_DESKS_SUCCESS,    desks   };
+export function loadBoardsSuccess(boards) {
+  return   {  type: types.LOAD_BOARDS_SUCCESS,    boards   };
 }
 
-export function loadDesks() {
+export function loadBoards() {
   // make async call to api, handle promise, dispatch action when promise is resolved
   return function(dispatch) {
-    return MemoryBoxesApi.getAllDesks().then(desks =>
+    return MemoryBoxesApi.getAllBoards().then(boards =>
     {
-      dispatch(loadDesksSuccess(desks));
+      dispatch(loadBoardsSuccess(boards));
     }).catch(error => {
       throw (error);
     });
   };
-  //return Api.getAllDesks();
+  //return Api.getAllBoards();
 }
 
-const fetchTheme = themeId => dispatch => {
-  dispatch(requestTheme(themeId))
-  return fetch(`localhost/r/${themeId}.json`)
-    .then(response => response.json())
-    .then(json => dispatch(receivePosts(subreddit, json)))
+export const requestCards = cardId => ({
+  type: types.REQUEST_CARD,
+  cardId
+})
+
+export const receiveCard = (cardId, json) => ({
+  type: types.RECEIVE_CARD,
+  cardId,
+  title: "TITLE",//json.data.children.map(child => child.data),
+  content: "CONTENT"
+})
+
+export const fetchCard = cardId => dispatch => {
+  dispatch(requestCards(cardId))
+  return fetch(`localhost/r/${cardId}.json`)
+    //.then(response => response.json())
+    .then(json => dispatch(receiveCard(cardId, json)))
 }
 
-
-export function setBlockViewVisibleSuccess(isBlockViewVisible) {
-  return { type: types.SET_BLOCKVIEW_VISIBLE, isBlockViewVisible };
+export function setCardViewVisibleSuccess(isCardViewVisible) {
+  return { type: types.SET_CARDVIEW_VISIBLE, isCardViewVisible };
 }
 
-export function setBlockViewVisible(isBlockViewVisible) {
-  //console.log("setBlockViewVisible!!" + isBlockViewVisible);
+export function setCardViewVisible(isCardViewVisible) {
+  //console.log("setCardViewVisible!!" + isCardViewVisible);
   return function (dispatch) {
-    dispatch(setBlockViewVisibleSuccess(isBlockViewVisible));
+    dispatch(setCardViewVisibleSuccess(isCardViewVisible));
   };
 }
 
-export function setBlockViewOpenedIdSuccess(blockViewOpenedId) {
-  return { type: types.SET_BLOCKVIEW_OPENED_ID, blockViewOpenedId };
+export function setCardViewOpenedIdSuccess(cardViewOpenedId) {
+  return { type: types.SET_CARDVIEW_OPENED_ID, cardViewOpenedId };
 }
 
-export function setBlockViewOpenedId(blockViewOpenedId) {
+export function setCardViewOpenedId(cardViewOpenedId) {
   return function (dispatch) {
-    dispatch(setBlockViewOpenedIdSuccess(blockViewOpenedId));
+    dispatch(setCardViewOpenedIdSuccess(cardViewOpenedId));
   };
 }
 

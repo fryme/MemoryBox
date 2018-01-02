@@ -1,16 +1,12 @@
-// fetch("/login", {
-//   method: "POST",
-//   body: form
-// })
 
-import ALL_DESKS from "./model";
+import ALL_BOARDS from "./model";
 
 class MemoryBoxesApi {
-  static getAllDesks() {
+  static getAllBoards() {
     return fetch('http://localhost:5000/api/v1/cats').then(response => {
       return response.json();
     }).catch(error => {
-      return ALL_DESKS.ALL_DESKS;
+      return ALL_BOARDS.ALL_BOARDS;
       //return error;
     });
   }

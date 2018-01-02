@@ -1,10 +1,10 @@
 /*
 const DESK_THEMES_DATA = {
-  themes: [
+  boards: [
     [
       {
         title: "M. Kerrisk - TLPI",
-        blocks: [
+        cards: [
           {
             title: "IPC и синхронизация",
             data:
@@ -13,7 +13,7 @@ const DESK_THEMES_DATA = {
           {
             title: "Зачем нужна виртуальная память?",
             data:
-              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
           },
           {
             title: "Виртуальная память",
@@ -24,7 +24,7 @@ const DESK_THEMES_DATA = {
       },
       {
         title: "M. - TLPI",
-        blocks: [
+        cards: [
           {
             title: "IPC и синхронизация",
             data:
@@ -33,7 +33,7 @@ const DESK_THEMES_DATA = {
           {
             title: "Зачем нужна виртуальная память?",
             data:
-              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
           },
           {
             title: "Виртуальная память",
@@ -47,7 +47,7 @@ const DESK_THEMES_DATA = {
     [
       {
         title: "M. Kerrisk - TLPI",
-        blocks: [
+        cards: [
           {
             title: "IPC и синхронизация",
             data:
@@ -56,7 +56,7 @@ const DESK_THEMES_DATA = {
           {
             title: "Зачем нужна виртуальная память?",
             data:
-              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
           },
           {
             title: "Виртуальная память",
@@ -67,7 +67,7 @@ const DESK_THEMES_DATA = {
       },
       {
         title: "M. Kerrisk - TLPI",
-        blocks: [
+        cards: [
           {
             title: "IPC и синхронизация",
             data:
@@ -76,7 +76,7 @@ const DESK_THEMES_DATA = {
           {
             title: "Зачем нужна виртуальная память?",
             data:
-              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+              "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
           },
           {
             title: "Виртуальная память",
@@ -91,10 +91,10 @@ const DESK_THEMES_DATA = {
 };
 */
 export default {
-  ALL_DESKS: [
+  ALL_BOARDS: [
     {
       id: 0,
-      title: "Theme one"
+      title: "Board one"
     },
     {
       id: 1,
@@ -106,12 +106,12 @@ export default {
     }
   ],
 
-  THEMES_DATA_0: [
+  BOARDS_DATA_0: [
     {
-      themes: [
+      boards: [
         {
           title: "M. Kerrisk - TLPI",
-          blocks: [
+          cards: [
             {
               title: "IPC и синхронизация",
               data:
@@ -120,7 +120,7 @@ export default {
             {
               title: "Зачем нужна виртуальная память?",
               data:
-                "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+                "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
             },
             {
               title: "Виртуальная память",
@@ -132,7 +132,7 @@ export default {
         },
         {
           title: "Диск и файловая система",
-          blocks: [
+          cards: [
             {
               title:
                 "Before starting the program, the system initializes all memory",
@@ -154,12 +154,12 @@ export default {
     }
   ],
 
-  THEMES_DATA_1: [
+  BOARDS_DATA_1: [
     {
-      themes: [
+      boards: [
         {
           title: "M. - TLPI",
-          blocks: [
+          cards: [
             {
               title: "IPC и синхронизация",
               data:
@@ -168,7 +168,7 @@ export default {
             {
               title: "Зачем нужна виртуальная память?",
               data:
-                "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+                "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
             },
             {
               title: "Виртуальная память",
@@ -180,7 +180,7 @@ export default {
         },
         {
           title: "Диск и файловая система",
-          blocks: [
+          cards: [
             {
               title:
                 "Before starting the program, the system initializes all memory",
@@ -202,12 +202,12 @@ export default {
     }
   ],
 
-  THEMES_DATA_2: [
+  BOARDS_DATA_2: [
     {
-      themes: [
+      boards: [
         {
           title: "M. Kerrisk - TLPI",
-          blocks: [
+          cards: [
             {
               title: "IPC и синхронизация",
               data:
@@ -216,7 +216,7 @@ export default {
             {
               title: "Зачем нужна виртуальная память?",
               data:
-                "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical blocks in this file system; and\n– the size of the file system in logical blocks.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system."
+                "A file system contains the following parts:\n\n- Boot block: This is always the first block in a file system. The boot block is not used by the file system; rather, it contains information used to boot the operating system. Although only one boot block is needed by the operating system, all file systems have a boot block (most of which are unused).\n- Superblock: This is a single block, immediately following the boot block, which contains parameter information about the file system, including:\n– the size of the i-node table;\n– the size of logical cards in this file system; and\n– the size of the file system in logical cards.\nDifferent file systems residing on the same physical device can be of different types and sizes, and have different parameter settings (e.g., block size). This is one of the reasons for splitting a disk into multiple partitions.\n- I-node table: Each file or directory in the file system has a unique entry in the i-node table. This entry records various information about the file. I-nodes are discussed in greater detail in the next section. The i-node table is sometimes also\ncalled the i-list.\n- Data cards: The great majority of space in a file system is used for the cards of data that form the files and directories residing in the file system."
             },
             {
               title: "Виртуальная память",
@@ -228,7 +228,7 @@ export default {
         },
         {
           title: "Диск и файловая система",
-          blocks: [
+          cards: [
             {
               title:
                 "Before starting the program, the system initializes all memory",

@@ -2,13 +2,13 @@ import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
 
-export default function deskReducer(state = initialState.desks, action) {
+export default function boardReducer(state = initialState.boards, action) {
   // state variable here reps just an array of courses
   switch (action.type) {
-    case types.LOAD_DESKS_SUCCESS:
+    case types.LOAD_BOARDS_SUCCESS:
       // return action.cats;
       // return action.cats.map(cat => Object.assign({}, cat, Object.assign([], cat.hobby_ids)))
-      return Object.assign([], state, action.desks)
+      return Object.assign([], state, action.boards)
     /*
     case types.CREATE_CAT_SUCCESS:
       browserHistory.push(`/cats/${action.cat.id}`)
@@ -30,7 +30,7 @@ export default function deskReducer(state = initialState.desks, action) {
     }
     */
     default:
-      console.log("deskReducer");
+      console.log("boardReducer");
       return state;
   }
 }

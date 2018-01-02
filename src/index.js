@@ -1,17 +1,14 @@
 import React from "react";
 import { render } from "react-dom";
-import DeskList from "./Desk/DeskList";
-
+import BoardList from "./Board/BoardList";
 import { Provider } from "react-redux";
 import configureStore from "./configureStore"
-import { loadDesks, setBlockViewVisible } from "./actions/deskActions";
+import { loadBoards, setCardViewVisible } from "./actions/boardActions";
 
 const store = configureStore();
 
-store.dispatch(loadDesks());
-//store.dispatch(setBlockViewVisible(false));
-
-//store.dispatch(loadHobbies());
+store.dispatch(loadBoards());
+//store.dispatch(setCardViewVisible(false));
 
 class App extends React.Component {
 
@@ -20,7 +17,7 @@ class App extends React.Component {
   }
 
   render() {
-    return <DeskList />;
+    return <BoardList />;
   }
 }
 

@@ -1,6 +1,12 @@
 export default {
-  desks: [],
-  blockView: {isVisible: false, openedThemeId: -1}
-  //isBlockViewVisible: false,
+  boards: [],
+  cardView: {
+    isVisible: false, 
+    cardId: -1,
+    isFetchingCard: false,
+    title: "NoTitle",
+    content: "NoContent"
+  }
+  //isCardViewVisible: false,
   //blockViewOpenedId: -1
 }

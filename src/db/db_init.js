@@ -48,9 +48,9 @@ db.createCollection( "boards", {
 db.createCollection( "users", {
     validator: { $jsonSchema: {
         bsonType: "object",
-        required: [ "user_name" ],
+        required: [ "username" ],
         properties: {
-            user_name: { bsonType: "string" },
+            username: { bsonType: "string" },
             email: {
                 bsonType : "string",
                 description: "must be a string and match the regular expression pattern"
@@ -61,7 +61,7 @@ db.createCollection( "users", {
 
 // insert default data
 
-db.users.insert({'user_name':'oleg'})
+db.users.insert({'username':'Oleg', 'email':'ollo@ollog.ru'})
 
 //db.getCollectionNames()
 //var collection = db.collection('test')

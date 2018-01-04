@@ -3,12 +3,20 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Board from "./Board";
 import { connect } from 'react-redux';
 
+import * as boardActions from "../actions/boardActions";
+
 import "./board.css";
 
 class BoardList extends React.Component {
   constructor(props) {
     super(props);
     const { dispatch } = this.props;
+
+    dispatch(boardActions.fetchAllBoards())
+  }
+
+  componentWillReceiveProps(nextProps) {
+    //boards
   }
 
   render() {
@@ -51,7 +59,9 @@ class BoardList extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return { boards: state.boards };
+  return { 
+    boards: state.boards 
+  };
 }
 
 export default connect(

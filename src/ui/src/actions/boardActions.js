@@ -24,6 +24,10 @@ export const requestCards = cardId => ({
   cardId
 })
 
+export const requestAllBoards = cardId => ({
+  type: types.REQUEST_ALL_BOARDS
+})
+
 export const receiveCard = (cardId, json) => ({
   type: types.RECEIVE_CARD,
   cardId,
@@ -31,11 +35,26 @@ export const receiveCard = (cardId, json) => ({
   content: "CONTENT"
 })
 
+export const receiveBoards = (json) => ({
+  type: types.REQUEST_ALL_BOARDS,
+  boards: json.data.children.map(child => child.data),
+})
+
 export const fetchCard = cardId => dispatch => {
   dispatch(requestCards(cardId))
   return fetch(`localhost/r/${cardId}.json`)
     //.then(response => response.json())
     .then(json => dispatch(receiveCard(cardId, json)))
+}
+
+export const fetchAllBoards = cardId => dispatch => {
+  console.log("fetchAllBoards");
+  var headers = Headers
+  headers.append("Access-Control-Allow-Origin", "*")
+  dispatch(requestAllBoards())
+  return fetch(`http://localhost:9090/api/v1/boards`)
+    .then(response => response.json())
+    .then(json => dispatch(receiveBoards(json)))
 }
 
 export function setCardViewVisibleSuccess(isCardViewVisible) {

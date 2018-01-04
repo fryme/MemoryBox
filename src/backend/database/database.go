@@ -13,6 +13,11 @@ type User struct {
 	Email    string `bson:"email" json:"email"`
 }
 
+type Board struct {
+	Title string `bson:"title" json:"title"`
+	Boxes string `bson:"boxes" json:"boxes"`
+}
+
 type DbConnection struct {
 	dbPath string
 }

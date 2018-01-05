@@ -18,44 +18,39 @@ import BOARDS_DATA from "../api/model.js";
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    var id = parseInt(this.props.match.path[1], 10);
-    var boards = [];
-    var boardTitle = "";
-
-    if (id === 0) {
-      boardTitle = BOARDS_DATA.ALL_BOARDS[0].title;
-      boards = BOARDS_DATA.BOARDS_DATA_0[0].boards;
-    } else if (id === 1) {
-      boardTitle = BOARDS_DATA.ALL_BOARDS[1].title;
-      boards = BOARDS_DATA.BOARDS_DATA_1[0].boards;
-    } else if (id === 2) {
-      boardTitle = BOARDS_DATA.ALL_BOARDS[2].title;
-      boards = BOARDS_DATA.BOARDS_DATA_2[0].boards;
-    }
 
     this.state = {
-      boards: boards,
-      title: boardTitle
-    };
-    //boardActions.setCardViewVisible(false);
+      title: "",
+      boxes: []
+    }
+    
+    var id = props.match.url.substr(1)
+    var obj = props.boards.boards
+    
+    for (var i = 0; i < obj.length; i++) {
+      if (obj[i].id == id) {
+        this.state.boxes = obj[i].boxes
+        this.state.title = obj[i].title
+        this.state.id = id
+      }
+    }
   }
 
   render() {
     const boards = [];
-    console.log("Board::render: " + this.props.isCardViewVisible);
+    console.log("Board::render: " + this.props.isCardViewVisible + " " + this.state.boxes);
 
-    if (this.state.boards) {
-      for (var i = 0; i < this.state.boards.length; i++) {
+    if (this.state.boxes) {
+      for (var i = 0; i < this.state.boxes.length; i++) {
         boards.push(
           <td key={i}>
             <Box
-              title={this.state.boards[i].title}
-              cards={this.state.boards[i].cards}
+              title={this.state.boxes[i].title}
+              cards={this.state.boxes[i].cards}
               id={i}
             />
           </td>
         );
-        //console.log(this.state.boards[i].title);
       }
     }
 
@@ -71,7 +66,8 @@ class Board extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    isVisible: state.isVisible
+    isVisible: state.isVisible,
+    boards: state.boards
   };
 }
 

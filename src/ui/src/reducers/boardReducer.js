@@ -7,10 +7,10 @@ export default function boardReducer(state = initialState.boards, action) {
     case types.LOAD_BOARDS_SUCCESS:
       return Object.assign([], state, action.boards)
     case types.RECEIVE_ALL_BOARDS:
-    console.log("boardReducer.RECEIVE_ALL_BOARDS " + JSON.stringify(action.boards));
+      console.log("boardReducer.RECEIVE_ALL_BOARDS " + JSON.stringify(action.boards));
       return {
         ...state,
-        boards: action.boards
+        boards: Object.values(action.boards)
       } 
     default:
       return state;

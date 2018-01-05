@@ -31,28 +31,33 @@ export const requestAllBoards = cardId => ({
 export const receiveCard = (cardId, json) => ({
   type: types.RECEIVE_CARD,
   cardId,
-  title: "TITLE",//json.data.children.map(child => child.data),
-  content: "CONTENT"
+  content: json//Object.values(json)
 })
 
 export const receiveBoards = (json) => ({
-  type: types.REQUEST_ALL_BOARDS,
-  boards: json.data.children.map(child => child.data),
+  type: types.RECEIVE_ALL_BOARDS,
+  boards: Object.values(json)
 })
 
 export const fetchCard = cardId => dispatch => {
+  console.log("fetchCard " + cardId);
   dispatch(requestCards(cardId))
-  return fetch(`localhost/r/${cardId}.json`)
-    //.then(response => response.json())
+  return fetch(`http://localhost:9090/api/v1/cards?cardId=` + cardId)
+    .then(response => response.json())
     .then(json => dispatch(receiveCard(cardId, json)))
 }
 
 export const fetchAllBoards = cardId => dispatch => {
   console.log("fetchAllBoards");
-  var headers = Headers
-  headers.append("Access-Control-Allow-Origin", "*")
+  /*
+  var myHeaders = new Headers();
   dispatch(requestAllBoards())
-  return fetch(`http://localhost:9090/api/v1/boards`)
+  var myInit = { method: 'GET',
+               headers: myHeaders,
+               mode: 'cors',
+               cache: 'default' };
+    */           
+  return fetch(`http://localhost:9090/api/v1/boards`/*, myInit*/)
     .then(response => response.json())
     .then(json => dispatch(receiveBoards(json)))
 }
@@ -78,77 +83,3 @@ export function setCardViewOpenedId(cardViewOpenedId) {
   };
 }
 
-/*
-export function loadCatsSuccess(cats) {
-  return { type: types.LOAD_CATS_SUCCESS, cats };
-}
-
-export function updateCatSuccess(cat) {
-  return { type: types.UPDATE_CAT_SUCCESS, cat };
-}
-
-export function createCatSuccess(cat) {
-  return { type: types.CREATE_CAT_SUCCESS, cat };
-}
-
-export function deleteCatSuccess(cat) {
-  return { type: types.DELETE_CAT_SUCCESS, cat };
-}
-
-export function loadCats() {
-  // make async call to api, handle promise, dispatch action when promise is resolved
-  return function(dispatch) {
-    return catApi
-      .getAllCats()
-      .then(cats => {
-        dispatch(loadCatsSuccess(cats));
-      })
-      .catch(error => {
-        throw error;
-      });
-  };
-}
-
-export function updateCat(cat) {
-  return function(dispatch) {
-    return catApi
-      .updateCat(cat)
-      .then(responseCat => {
-        dispatch(updateCatSuccess(responseCat));
-      })
-      .catch(error => {
-        throw error;
-      });
-  };
-}
-
-export function createCat(cat) {
-  return function(dispatch) {
-    return catApi
-      .createCat(cat)
-      .then(responseCat => {
-        dispatch(createCatSuccess(responseCat));
-        return responseCat;
-      })
-      .catch(error => {
-        throw error;
-      });
-  };
-}
-
-export function deleteCat(cat) {
-  return function(dispatch) {
-    return catApi
-      .deleteCat(cat)
-      .then(() => {
-        console.log(`Deleted ${cat.id}`);
-        dispatch(deleteCatSuccess(cat));
-        return;
-      })
-      .catch(error => {
-        throw error;
-      });
-  };
-}
-
-*/

@@ -1,0 +1,3 @@
+#!/bin/bash
+cmd="mongod --dbpath ~/mongodata/ --port 27017"
+$cmd &

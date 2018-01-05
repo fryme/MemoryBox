@@ -8,6 +8,7 @@ db = connect(db_host + ":" + db_port + "/" + db_name)
 // cleanup
 db.boards.drop()
 db.users.drop()
+db.cards_data.drop()
 
 // create collections
 
@@ -18,25 +19,25 @@ boards -> boxes -> cards
 db.createCollection( "boards", {
     validator: { $jsonSchema: {
         bsonType: "object",
-        required: [ "title" ],
+        required: [ "title", "id"/*, "owner_id" */],
         properties: {
+            id: { bsonType: "string" },
             title: { bsonType: "string" },
-            boxes: [{
-                bsonType: "object",
+            boxes: {
+                bsonType: "array",
                 required: [ "title" ],
                 properties: {
                     title: { bsonType: "string" },
-                    cards: [{
-                        bsonType: "object",
-                        required: [ "title" ],
+                    cards: {
+                        bsonType: "array",
+                        required: [ "id" ],
                         properties: {
-                            title: { bsonType: "string" },
-                            data: { bsonType: "string" }
+                            id: { bsonType: "string" },
                         }
-                    }]
+                    }
                 },
                 description: "represents a box of cards"
-            }],
+            },
             owner_id: {
                 bsonType: "objectId",
                 description: "object id of user owned this board"
@@ -45,6 +46,20 @@ db.createCollection( "boards", {
     } } 
 })
 
+// cards_data
+db.createCollection( "cards_data", {
+    validator: { $jsonSchema: {
+        bsonType: "object",
+        required: [ "id", "title" ],
+        properties: {
+            id: { bsonType: "string" },
+            title: { bsonType: "string" },
+            content: { bsonType: "string" },
+        },
+    } } 
+})
+
+// users
 db.createCollection( "users", {
     validator: { $jsonSchema: {
         bsonType: "object",
@@ -59,9 +74,21 @@ db.createCollection( "users", {
     } }
  })
 
-// insert default data
-
+// insert default/test data
 db.users.insert({'username':'Oleg', 'email':'ollo@ollog.ru'})
+db.boards.insert({'title':'What a title!', "id": "What-a-titleDAjZJRgVQx", 'boxes' : [
+    {
+        "id": "tudJsPwfbP",
+        'title':'inner box if first title', 
+        'cards': [
+            { "id": "YOgYKWwxRZ" },
+            { "id": "viuvyUQXur" }
+        ]
+    }]
+})
+
+db.cards_data.insert({'id': 'viuvyUQXur', 'content': "Inner data, wow!", 'title': 'first card in first box in first board'})
+db.cards_data.insert({'id': 'YOgYKWwxRZ', 'content': "Other inner data, wow!", 'title': 'Another card in first box in first board'})
 
 //db.getCollectionNames()
 //var collection = db.collection('test')

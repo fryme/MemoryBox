@@ -5,7 +5,11 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
+	"strings"
+	"time"
+	"unicode"
 
 	"./database"
 	jwt "github.com/dgrijalva/jwt-go"
@@ -16,7 +20,7 @@ import (
 var DBConn database.DbConnection
 
 func HandleUsers(res http.ResponseWriter, req *http.Request) {
-	println("HandleUsers")
+	log.Println("HandleUsers")
 
 	res.Header().Set(
 		"Content-Type",
@@ -50,36 +54,37 @@ func HandleUsers(res http.ResponseWriter, req *http.Request) {
 	)
 }
 
-var boards []database.Board
-
 // HandleBoards ...
 func HandleBoards(w http.ResponseWriter, req *http.Request) {
-	println("HandleBoards")
+	log.Println("HandleBoards")
 	/*
 		res.Header().Set(
 			"Content-Type",
 			"text/json",
 		)
 	*/
-	json.NewEncoder(w).Encode(boards)
-	log.Println(boards)
-	/*
-		User := map[string]string{}
-		User["1"] = "1"
 
-		io.WriteString(
-			res,
-			`<DOCTYPE html>
-				<html>
-				<head>
-					<title>Hello World</title>
-				</head>
-				<body>
-					Hello World!
-				</body>
-				</html>`,
-		)
-	*/
+	w.Header().Add("Content-Type", "text/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	json.NewEncoder(w).Encode(DBConn.GetBoards())
+}
+
+// HandleCards ...
+func HandleCards(w http.ResponseWriter, req *http.Request) {
+	log.Println("HandleCards")
+
+	//params := mux.Vars(req)
+	//var person Person
+	//_ = json.NewDecoder(req.Body).Decode(&person)
+	//person.ID = params["id"]
+
+	log.Println(req.URL.Query().Get("cardId"))
+
+	w.Header().Add("Content-Type", "text/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	json.NewEncoder(w).Encode(DBConn.GetCardData(req.URL.Query().Get("cardId")))
 }
 
 // Auth
@@ -105,7 +110,7 @@ func CreateTokenEndpoint(w http.ResponseWriter, req *http.Request) {
 	})
 	tokenString, error := token.SignedString([]byte("secret"))
 	if error != nil {
-		fmt.Println(error)
+		log.Println(error)
 	}
 	json.NewEncoder(w).Encode(JwtToken{Token: tokenString})
 }
@@ -127,27 +132,46 @@ func ProtectedEndpoint(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var idSize = 10
+
+func GenerateRandIdFromName(name string) string {
+	var result string
+	result = strings.Map(func(r rune) rune {
+		if unicode.IsSpace(r) {
+			return '-'
+		}
+		return r
+	}, name)
+
+	rand.Seed(time.Now().UTC().UnixNano())
+	b := make([]rune, idSize)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+
+	result += string(b)
+	return result
+}
+
 func main() {
 	log.Print("Initializing db connection")
-
 	DBConn.Connect(getDbPath())
 	defer DBConn.Close()
 
-	serverPath := getPath()
-	var b database.Board
-	b.Title = "hello, title"
-	b.Boxes = "hello, boxes"
-	boards = append(boards, b)
+	log.Println(DBConn.GetBoards())
 
+	serverPath := getPath()
 	router := mux.NewRouter()
 	router.HandleFunc(pathAppend(serverPath, "authenticate"), CreateTokenEndpoint).Methods("POST")
 	router.HandleFunc(pathAppend(serverPath, "protected"), ProtectedEndpoint).Methods("GET")
 	router.HandleFunc(pathAppend(serverPath, "users"), HandleUsers).Methods("GET")
 	router.HandleFunc(pathAppend(serverPath, "boards"), HandleBoards).Methods("GET")
+	router.HandleFunc(pathAppend(serverPath, "cards"), HandleCards).Methods("GET")
 
 	serverHost := getHost()
-	println("Server will started at: " + serverHost)
-	//println("Server installed paths: " + pathAppend(serverPath, "users") + ", " + pathAppend(serverPath, "boards"))
+	log.Println("Server will started at: " + serverHost)
+	//log.Println("Server installed paths: " + pathAppend(serverPath, "users") + ", " + pathAppend(serverPath, "boards"))
 
 	http.ListenAndServe(getHost(), router)
 }

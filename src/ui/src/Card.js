@@ -9,18 +9,16 @@ import { setCardViewVisible, setCardViewOpenedId } from "./actions/boardActions"
 class Card extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       title: props.title,
       snippet: props.snippet,
-      viewOpen: false,
       isHovering: false,
       cardId: props.cardId
     };
 
-    // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
     this.handleMouseHover = this.handleMouseHover.bind(this);
-    //this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   handleMouseHover() {
@@ -39,19 +37,6 @@ class Card extends React.Component {
     
     dispatch(setCardViewOpenedId(this.state.cardId))
     dispatch(setCardViewVisible(true))
-  }
-
-  handleOutsideClick(e) {
-    console.log("Card.handleOutsideClick");
-
-    /*
-    // ignore clicks on the component itself
-    if (this.node.contains(e.target)) {
-      return;
-    }
-
-    this.handleClick();
-    */
   }
 
   render() {

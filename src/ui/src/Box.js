@@ -56,7 +56,7 @@ class Box extends React.Component {
           <Card key={i}
             title={this.state.cards[i].title}
             snippet={this.state.cards[i].data}
-            cardId={i}
+            cardId={this.state.cards[i].id}
           />
         );
       }
@@ -82,7 +82,9 @@ class Box extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  return {}
+  return {
+    boards: state.boards
+  }
 }
 
 export default connect(

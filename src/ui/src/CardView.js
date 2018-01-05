@@ -24,11 +24,16 @@ class CardView extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   handleClick() {
     const { dispatch } = this.props
     dispatch(setCardViewVisible(!this.props.isVisible))
+  }
+
+  handleOutsideClick(e) {
+    console.log("Card.handleOutsideClick");
   }
 
   componentDidMount() {
@@ -46,17 +51,20 @@ class CardView extends React.Component {
   }
   
   render() {
+    //console.log("CardView.render " + this.props.content.title)
     return (
-      <div>
+      <div
+        //onClick={this.handleOutsideClick}
+      >
         {this.props.isVisible &&
         <div style={CardViewStyle} onClick={this.handleClick}>
           <button onClick={this.handleClick}>x</button>
           <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
-            {this.props.title}
+            {this.props.content.title}
           </div>
           <div
             style={TextStyle}
-            dangerouslySetInnerHTML={{ __html: this.props.content }}
+            dangerouslySetInnerHTML={{ __html: this.props.content.content }}
           />
         </div>
         }
@@ -71,7 +79,7 @@ function mapStateToProps(state, ownProps) {
     isVisible: state.cardView.isVisible,
     cardId: state.cardView.cardId,
     title: state.cardView.title,
-    content: state.cardView.content
+    content: state.cardView.content,
   };
 }
 

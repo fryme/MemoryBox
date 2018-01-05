@@ -7,7 +7,7 @@ import { loadBoards, setCardViewVisible } from "./actions/boardActions";
 
 const store = configureStore();
 
-store.dispatch(loadBoards());
+//store.dispatch(loadBoards());
 //store.dispatch(setCardViewVisible(false));
 
 class App extends React.Component {

@@ -16,31 +16,25 @@ class BoardList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //boards
+    console.log("BoardList.componentWillReceiveProps" + JSON.stringify(nextProps))
   }
 
   render() {
     const boardsTemp = [];
     const routes = [];
-    const boards = this.props.boards;
-
-    console.log("BoardList::render: " + this.props.boards.length)
-
+    const boards = this.props.boards.boards;
+    
     if (boards) {
       for (var i = 0; i < boards.length; i++) {
-        var path = "/" + i;
+        var path = "/" + boards[i].id;
 
         boardsTemp.push(
           <th key={i} className="boardTop_name">
-            <Link key={i} to={path}>{boards[i].title}</Link>
+            <Link key={i} to={path} >{boards[i].title}</Link>
           </th>
         );
-        console.log(">>>>" + JSON.stringify(boards[i]))
+        routes.push(<Route key={i} path={path} component={Board} />);
       }
-
-      routes.push(<Route key={0} path="/0" component={Board} />);
-      routes.push(<Route key={1} path="/1" component={Board} />);
-      routes.push(<Route key={2} path="/2" component={Board} />);
     }
 
     return (
@@ -60,7 +54,7 @@ class BoardList extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return { 
-    boards: state.boards 
+    boards: state.boards
   };
 }
 

@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import * as boardActions from "./actions/boardActions";
 import { setCardViewVisible } from "./actions/boardActions";
 
+import { Modal }  from 'semantic-ui-react'
+
 class CardView extends React.Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
@@ -30,6 +32,11 @@ class CardView extends React.Component {
   handleClick() {
     const { dispatch } = this.props
     dispatch(setCardViewVisible(!this.props.isVisible))
+    console.log("CardView.handleClick " + this.div.innerHTML);
+    if (this.div.innerHTML != this.props.content.content) {
+      dispatch(boardActions.updateCardData(this.props.cardId, this.props.content.title, this.div.innerHTML))
+      dispatch(boardActions.fetchCard(this.props.cardId));
+    }
   }
 
   handleOutsideClick(e) {
@@ -37,6 +44,10 @@ class CardView extends React.Component {
   }
 
   componentDidMount() {
+  }
+
+  reloadCard = function(cardId) {
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,6 +61,10 @@ class CardView extends React.Component {
     }
   }
   
+  onChange(event) {
+    console.log("CardView.onChange")
+  }
+  // <div className="CardView">
   render() {
     //console.log("CardView.render " + this.props.content.title)
     return (
@@ -57,14 +72,17 @@ class CardView extends React.Component {
         //onClick={this.handleOutsideClick}
       >
         {this.props.isVisible &&
-        <div style={CardViewStyle} onClick={this.handleClick}>
+        <div className="CardView">
           <button onClick={this.handleClick}>x</button>
-          <div style={{ fontSize: "16px", fontWeight: "bolder" }}>
+          <div className="CardView_Title">
             {this.props.content.title}
           </div>
           <div
-            style={TextStyle}
+            className="CardView_TextBlock"
+            contentEditable="true"
             dangerouslySetInnerHTML={{ __html: this.props.content.content }}
+            ref={(div) => this.div = div} 
+            onChange={this.onChange.bind(this)}
           />
         </div>
         }
@@ -72,6 +90,11 @@ class CardView extends React.Component {
     );
   }
 }
+
+/*
+<textarea value={this.props.content.content} />
+
+*/
 
 function mapStateToProps(state, ownProps) {
   //console.log("CardView mapStateToProps " + JSON.stringify(state));
@@ -94,26 +117,3 @@ export default connect(
   //mapDispatchToProps
 )(CardView);
 
-const TextStyle = {
-  overflowY: "scroll",
-  height: "300px"
-};
-
-const CardViewStyle = {
-  background: "#efefef",
-  borderRadius: "5px",
-  borderColor: "#fff",
-  boxShadow: "2px 2px 2px rgba(0,0,0,.3)",
-  cursor: "pointer",
-  paddingBottom: "0px",
-  zIndex: "99",
-  position: "absolute",
-  top: "100px",
-  left: "200px",
-
-  width: "600px",
-  padding: "10px",
-  paddingLeft: "40px",
-  paddingTop: "20px",
-  lineHeight: "20px"
-};

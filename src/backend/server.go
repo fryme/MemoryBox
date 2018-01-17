@@ -4,12 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
-	"math/rand"
 	"net/http"
-	"strings"
-	"time"
-	"unicode"
 
 	"./database"
 	jwt "github.com/dgrijalva/jwt-go"
@@ -74,17 +71,140 @@ func HandleBoards(w http.ResponseWriter, req *http.Request) {
 func HandleCards(w http.ResponseWriter, req *http.Request) {
 	log.Println("HandleCards")
 
-	//params := mux.Vars(req)
-	//var person Person
-	//_ = json.NewDecoder(req.Body).Decode(&person)
-	//person.ID = params["id"]
-
-	log.Println(req.URL.Query().Get("cardId"))
-
 	w.Header().Add("Content-Type", "text/json")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
 	json.NewEncoder(w).Encode(DBConn.GetCardData(req.URL.Query().Get("cardId")))
+}
+
+type AddBoardData struct {
+	BoardName string `json:"boardName"`
+}
+
+func HandleAddBoard(w http.ResponseWriter, req *http.Request) {
+	log.Println("HandleAddBoard")
+	log.Println(req.Body)
+	body, err := ioutil.ReadAll(req.Body)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	log.Println(string(body))
+	var data AddBoardData
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Add("Content-Type", "text/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	if !DBConn.AddBoard(data.BoardName) {
+		http.Error(w, err.Error(), 500)
+	}
+}
+
+type AddBoxData struct {
+	BoardId string `json:"boardId"`
+	BoxName string `json:"boxName"`
+}
+
+func HandleAddBox(w http.ResponseWriter, req *http.Request) {
+	log.Println("HandleAddBox")
+	log.Println(req.Body)
+	body, err := ioutil.ReadAll(req.Body)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	log.Println(string(body))
+	var data AddBoxData
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Add("Content-Type", "text/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	if !DBConn.AddBox(data.BoardId, data.BoxName) {
+		http.Error(w, err.Error(), 500)
+	}
+}
+
+type AddCardData struct {
+	BoardId  string `json:"boardId"`
+	BoxId    string `json:"boxId"`
+	CardName string `json:"cardName"`
+}
+
+func HandleAddCard(w http.ResponseWriter, req *http.Request) {
+	log.Println("HandleAddCard")
+	log.Println(req.Body)
+	body, err := ioutil.ReadAll(req.Body)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	log.Println(string(body))
+	var data AddCardData
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Add("Content-Type", "text/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	if !DBConn.AddCard(data.BoardId, data.BoxId, data.CardName) {
+		http.Error(w, err.Error(), 500)
+	}
+}
+
+type UpdateCardData struct {
+	CardId    string `json:"cardId"`
+	CardTitle string `json:"cardTitle"`
+	CardData  string `json:"cardData"`
+}
+
+func HandleUpdateCard(w http.ResponseWriter, req *http.Request) {
+	log.Println("HandleUpdateCard")
+
+	body, err := ioutil.ReadAll(req.Body)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	log.Println(string(body))
+	var data UpdateCardData
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Add("Content-Type", "text/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	if !DBConn.UpdateCardData(data.CardId, data.CardTitle, data.CardData) {
+		http.Error(w, err.Error(), 500)
+	}
+
 }
 
 // Auth
@@ -132,46 +252,30 @@ func ProtectedEndpoint(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-var idSize = 10
-
-func GenerateRandIdFromName(name string) string {
-	var result string
-	result = strings.Map(func(r rune) rune {
-		if unicode.IsSpace(r) {
-			return '-'
-		}
-		return r
-	}, name)
-
-	rand.Seed(time.Now().UTC().UnixNano())
-	b := make([]rune, idSize)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-
-	result += string(b)
-	return result
-}
-
 func main() {
 	log.Print("Initializing db connection")
 	DBConn.Connect(getDbPath())
 	defer DBConn.Close()
-
-	log.Println(DBConn.GetBoards())
 
 	serverPath := getPath()
 	router := mux.NewRouter()
 	router.HandleFunc(pathAppend(serverPath, "authenticate"), CreateTokenEndpoint).Methods("POST")
 	router.HandleFunc(pathAppend(serverPath, "protected"), ProtectedEndpoint).Methods("GET")
 	router.HandleFunc(pathAppend(serverPath, "users"), HandleUsers).Methods("GET")
+
 	router.HandleFunc(pathAppend(serverPath, "boards"), HandleBoards).Methods("GET")
+	router.HandleFunc(pathAppend(serverPath, "boards/add"), HandleAddBoard).Methods("POST")
+
+	router.HandleFunc(pathAppend(serverPath, "boxes/add"), HandleAddBox).Methods("POST")
+
 	router.HandleFunc(pathAppend(serverPath, "cards"), HandleCards).Methods("GET")
+	router.HandleFunc(pathAppend(serverPath, "cards"), HandleAddCard).Methods("POST")
+	router.HandleFunc(pathAppend(serverPath, "cards/update"), HandleUpdateCard).Methods("POST")
 
 	serverHost := getHost()
 	log.Println("Server will started at: " + serverHost)
 	//log.Println("Server installed paths: " + pathAppend(serverPath, "users") + ", " + pathAppend(serverPath, "boards"))
 
+	//go log.Fatal(http.ListenAndServe(":8080", http.FileServer(http.Dir("/usr/share/doc"))))
 	http.ListenAndServe(getHost(), router)
 }

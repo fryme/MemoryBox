@@ -49,9 +49,10 @@ export const fetchCard = cardId => dispatch => {
 
 export const fetchAllBoards = cardId => dispatch => {
   console.log("fetchAllBoards");
+  dispatch(requestAllBoards())
+
   /*
   var myHeaders = new Headers();
-  dispatch(requestAllBoards())
   var myInit = { method: 'GET',
                headers: myHeaders,
                mode: 'cors',
@@ -61,6 +62,41 @@ export const fetchAllBoards = cardId => dispatch => {
     .then(response => response.json())
     .then(json => dispatch(receiveBoards(json)))
 }
+
+export const addBoard = boardName_ => dispatch => {
+  console.log("addBoard " + boardName_);
+  return fetch(`http://localhost:9090/api/v1/boards/add`, {
+    method: "POST",
+    body: JSON.stringify({boardName: boardName_})
+  })
+  .then(dispatch(fetchAllBoards()))
+}
+
+export const addBox = (boardId_, boxName_) => dispatch => {
+  console.log("addBox " + boardId_ + " " + boxName_)
+  return fetch(`http://localhost:9090/api/v1/boxes/add`, {
+    method: "POST",
+    body: JSON.stringify({boardId: boardId_, boxName: boxName_})
+  })
+  .then(dispatch(fetchAllBoards()))
+}
+
+export const addCard = (boardId_, boxId_, cardName_) => dispatch => {
+  console.log("addBox " + boardId_ + " " + boxId_ + " " + cardName_)
+  return fetch(`http://localhost:9090/api/v1/cards`, {
+    method: "POST",
+    body: JSON.stringify({boardId: boardId_, boxId: boxId_, cardName: cardName_})
+  }).then(dispatch(fetchAllBoards()))
+}
+
+export const updateCardData = (cardId_, cardTitle_, cardData_) => dispatch => {
+  console.log("updateCardData " + cardId_ + " " + cardTitle_)
+  return fetch(`http://localhost:9090/api/v1/cards/update`, {
+    method: "POST",
+    body: JSON.stringify({cardId: cardId_, cardTitle: cardTitle_, cardData: cardData_})
+  }).then(dispatch(fetchCard(cardId_)))
+}
+
 
 export function setCardViewVisibleSuccess(isCardViewVisible) {
   return { type: types.SET_CARDVIEW_VISIBLE, isCardViewVisible };

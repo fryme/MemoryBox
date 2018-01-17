@@ -2,6 +2,9 @@ import React from "react";
 import Card from "./Card";
 import "./card_style.css";
 import { connect } from "react-redux";
+import * as boardActions from "./actions/boardActions.js"
+import { Button, Input, TextArea } from 'semantic-ui-react'
+
 //export default ({ name }) => <h1>Hello {name}!</h1>;
 /*
 class Toggle extends React.Component {
@@ -30,6 +33,103 @@ class Toggle extends React.Component {
 }
 */
 
+class AddCardForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isClicked: false,
+      boardId: this.props.boardId,
+      boxId: this.props.boxId
+    }
+
+    this.handleCloseClick = this.handleCloseClick.bind(this)
+    this.handleAddClick = this.handleAddClick.bind(this)
+  }
+
+  handleAddCardClick() {
+    console.log("Box.handleAddCardClick");
+  }
+
+  handleCloseClick() {
+    this.state.isClicked = !this.state.isClicked
+    console.log("BoardAddButton.handleCloseClick " + this.state.isClicked)
+    this.forceUpdate()
+  }
+
+  handleAddClick() {
+    this.props.dispatch(boardActions.addCard(this.props.boardId, this.props.boxId, this.input))
+    this.state.isClicked = !this.state.isClicked
+    this.forceUpdate()
+  }
+
+  handleKeyPress = (event) => {
+    // Escape to cancel?
+    //if(event.key == 'Enter'){
+      //this.handleAddClick()
+    //}
+  }
+
+  setInputValue = function(value) {
+    this.input = value
+  }
+
+  render() {
+    return (
+      <div className="AddCard_container">
+        {!this.state.isClicked&& 
+          <div className="AddCard_addButton">
+            <a onClick={this.handleCloseClick}>Добавить карточку...</a>
+          </div>
+        }
+        {this.state.isClicked&& 
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td >
+                    <TextArea autoHeight rows={1}
+                          id="NewCard_Input" 
+                          name="NewCard_Input" 
+                          type="text" 
+                          placeholder="Имя..." 
+                          onKeyPress={this.handleKeyPress}
+                          autoFocus
+                          ref={(input) => this.input = input} 
+                          onChange={e => this.setInputValue(e.target.value)}
+                          className="ui small icon input"
+                          />
+                          </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Button className="ui small compact circular basic button" onClick={this.handleAddClick}>Добавить</Button>
+                    <Button id="NewCard_closeBtn" name="NewCard_closeBtn" className="ui small compact circular basic button" onClick={this.handleCloseClick}>x</Button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    )
+  }
+}
+
+class EditableTitle extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  
+  render() {
+    return(
+      <div className="boxTitleStyle">
+        {this.props.title}
+      </div>
+    )
+  }
+}
+
 class Box extends React.Component {
   constructor(props) {
     super(props);
@@ -37,14 +137,14 @@ class Box extends React.Component {
     this.state = {
       title: props.title,
       cards: props.cards,
-      id: props.id
+      boxId: props.boxId,
+      boardId: props.boardId
     };
-
-    this.handleClick = this.handleClick.bind(this);
+    //console.log( "Box.constructor "+ props.boxId)
   }
 
-  handleClick() {
-    console.log("Box.handleClick");
+  componentWillReceiveProps(newProps) {
+    this.state.cards = newProps.cards
   }
 
   render() {
@@ -63,19 +163,9 @@ class Box extends React.Component {
     }
     return (
       <div style={BoxStyle}>
-        <div className="boxRow">
-          <div className="boxTitleStyle">{this.state.title}</div>
-        </div>
-        <div onClick={this.handleClick} className="boxRow">{cardsTemp}</div>
-        <a
-          style={{
-            marginLeft: "15px",
-            textAlign: "left",
-            cursor: "pointer"
-          }}
-        >
-          Добавить карточку...
-        </a>
+        <EditableTitle title={this.state.title} />
+        <div className="boxRow">{cardsTemp}</div>
+        <AddCardForm boardId={this.state.boardId} boxId={this.state.boxId} dispatch={this.props.dispatch} />
       </div>
     );
   }
@@ -107,8 +197,8 @@ const BoxStyle = {
   boxShadow: "1px 1px 1px rgba(0, 0, 0, .5)",
   borderRadius: "3px",
   paddingBottom: "10px",
-  marginRight: "10px",
-  marginLeft: "10px",
+  marginRight: "5px",
+  
   verticalAlign: "top"
 };
 

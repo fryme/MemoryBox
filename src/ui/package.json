@@ -3,6 +3,7 @@
   "description": null,
   "version": "0.0.129",
   "dependencies": {
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "react": "^16.0.0",
     "react-dom": "16.0.0",
     "react-redux": "^5.0.6",
@@ -10,7 +11,9 @@
     "redux": "^3.7.2",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.2.0",
-    "redux-watch": "^1.1.1"
+    "redux-watch": "^1.1.1",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.77.1"
   },
   "devDependencies": {
     "react-scripts": "1.0.0"

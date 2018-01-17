@@ -47,6 +47,13 @@
   display: table;
   width: 100%;
   table-layout: fixed;
-  border-spacing: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
   overflow-y: scroll;
+}
+
+.boxTitleStyle 
+{
+    margin-left: 10px;
+    margin-top: 10px
 }

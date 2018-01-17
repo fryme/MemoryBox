@@ -4,16 +4,82 @@ import Box from "../Box";
 import BoardTitle from "./BoardTitle";
 import CardView from "../CardView";
 import { connect } from 'react-redux';
-import { setCardViewVisible } from "../actions/boardActions";
+import * as boardActions from "../actions/boardActions";
 import { bindActionCreators } from 'redux';
-//import PropTypes from 'prop-types'
 
 import BOARDS_DATA from "../api/model.js";
 
-//import { BOARDS_DATA_0, BOARDS_DATA_1, BOARDS_DATA_2} from "./model";
+class AddNewBox extends React.Component {
+  constructor(props) {
+    super(props);
 
-//import "temp.styl";
+    this.state = {
+      isClicked: false
+    }
+  
+    this.handleCloseClick = this.handleCloseClick.bind(this)
+    this.handleAddClick = this.handleAddClick.bind(this)
+  }
 
+  handleCloseClick() {
+    const { dispatch } = this.props
+    this.state.isClicked = !this.state.isClicked
+    
+    console.log("BoardAddButton.handleCloseClick " + this.state.isClicked)
+    this.forceUpdate()
+  }
+
+  handleAddClick() {
+    this.props.dispatch(boardActions.addBox(this.props.boardId, this.input.value))
+    this.state.isClicked = !this.state.isClicked
+    this.forceUpdate()
+  }
+
+  handleKeyPress = (event) => {
+    // Escape to cancel?
+    if(event.key == 'Enter'){
+      this.handleAddClick()
+    }
+  }
+
+  render() {
+      return (
+        <div className="AddBox_container">
+          {!this.state.isClicked&& 
+            <div className="AddBox_addButton">
+              <a onClick={this.handleCloseClick}>Новый список</a>
+            </div>
+          }
+          {this.state.isClicked&& 
+            <div className="AddBox_innerContainer">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input id="newBoxName" 
+                            name="newBoxName" 
+                            type="text" 
+                            placeholder="Новый список..." 
+                            onKeyPress={this.handleKeyPress}
+                            autoFocus
+                            ref={(input) => this.input = input} 
+                            />
+                            </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a className="AddBox_addButton" onClick={this.handleAddClick}>Добавить</a>
+                      <a className="AddBox_closeButton" onClick={this.handleCloseClick}>X</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      )
+  }
+}
 
 class Board extends React.Component {
   constructor(props) {
@@ -21,43 +87,62 @@ class Board extends React.Component {
 
     this.state = {
       title: "",
-      boxes: []
+      boxes: [],
+      id: ""
     }
     
-    var id = props.match.url.substr(1)
-    var obj = props.boards.boards
-    
+    this.state.id = props.match.url.substr(1)
+    this.setCurrentBoard(props.boards.boards);
+  }
+
+  setCurrentBoard = function(obj) {
+    // Looking for curret board
     for (var i = 0; i < obj.length; i++) {
-      if (obj[i].id == id) {
+      if (obj[i].id == this.state.id) {
         this.state.boxes = obj[i].boxes
         this.state.title = obj[i].title
-        this.state.id = id
       }
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    this.setCurrentBoard(newProps.boards.boards);
+  }
+
   render() {
-    const boards = [];
-    console.log("Board::render: " + this.props.isCardViewVisible + " " + this.state.boxes);
+    const boxes = [];
+    console.log("Board.render: " + this.props.isCardViewVisible + " " + this.state.boxes);
 
     if (this.state.boxes) {
       for (var i = 0; i < this.state.boxes.length; i++) {
-        boards.push(
+        boxes.push(
           <td key={i}>
-            <Box
-              title={this.state.boxes[i].title}
-              cards={this.state.boxes[i].cards}
-              id={i}
-            />
+            <div className="containingBlock">
+              <Box
+                title={this.state.boxes[i].title}
+                cards={this.state.boxes[i].cards}
+                boxId={this.state.boxes[i].id}
+                boardId={this.state.id}
+              />
+            </div>
           </td>
         );
       }
     }
 
     return (
-      <div style={BoardStyle}>
+      <div className="Board">
         <BoardTitle BoardTitle={this.state.title} />
-        <table><tbody><tr>{boards}</tr></tbody></table>
+        <table>
+          <tbody>
+            <tr>
+              {boxes}
+              <td style={{position: relative}}>
+                <AddNewBox boardId={this.state.id} dispatch={this.props.dispatch}/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <CardView />
       </div>
     );
@@ -71,25 +156,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(setCardViewVisible, dispatch)
-  };
-}
-
 export default connect(
-  mapStateToProps, 
-  mapDispatchToProps)
+  mapStateToProps)
 (Board);
 
-const BoardStyle = {
-  font: '14px "Helvetica Neue", Arial, Helvetica, sans-serif',
-  color: "#4d4d4d",
-  fontWeight: "normal",
-  padding: "0 10px",
-  backgroundColor: "rgb(0, 121, 191)",
-  position: "relative",
-  height: "100vh",
-  padding: "0",
-  margin: "0"
-};

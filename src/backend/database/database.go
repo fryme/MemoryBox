@@ -3,6 +3,10 @@ package database
 import (
 	"fmt"
 	"log"
+	"math/rand"
+	"strings"
+	"time"
+	"unicode"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -69,7 +73,6 @@ func (db DbConnection) GetUser(userName string) []User {
 	log.Println("DbConnection.GetUser")
 	var result []User
 	c := db.GetSession().DB("memory_boxes").C("users")
-	log.Println(c)
 	var err = c.Find(bson.M{"username": userName}).All(&result)
 
 	if err != nil {
@@ -96,7 +99,6 @@ func (db DbConnection) GetBoards() []Board {
 				var foundCard CardData
 				cards_data.Find(bson.M{"id": result[i].Boxes[j].Cards[k].Id}).One(&foundCard)
 				result[i].Boxes[j].Cards[k].Title = foundCard.Title
-				log.Println(result[i].Boxes[j].Cards[k].Title)
 			}
 		}
 	}
@@ -115,8 +117,6 @@ func (db DbConnection) GetCardData(id string) CardData {
 	c := db.GetSession().DB("memory_boxes").C("cards_data")
 	var err = c.Find(bson.M{"id": id}).All(&result)
 
-	log.Println(len(result))
-
 	if err != nil {
 		log.Print(err)
 	}
@@ -126,11 +126,138 @@ func (db DbConnection) GetCardData(id string) CardData {
 	}
 
 	if len(result) > 0 {
-		log.Println(result[0])
 		return result[0]
 	} else {
 		return CardData{}
 	}
+}
+
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var idSize = 10
+
+func GenerateRandIdFromName(name string) string {
+	var result string
+	result = strings.Map(func(r rune) rune {
+		if unicode.IsSpace(r) {
+			return '-'
+		}
+		return r
+	}, name)
+
+	rand.Seed(time.Now().UTC().UnixNano())
+	b := make([]rune, idSize)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+
+	result += "-"
+	result += string(b)
+	return result
+}
+
+func (db DbConnection) AddBoard(name string) bool {
+	log.Println("DbConnection.AddBoard, name: " + name)
+
+	c := db.GetSession().DB("memory_boxes").C("boards")
+	var err = c.Insert(&Board{GenerateRandIdFromName(name), name, nil})
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+	return true
+}
+
+func (db DbConnection) AddBox(boardId string, boxName string) bool {
+	log.Println("DbConnection.AddBox, boardId: " + boardId + ", boxName: " + boxName)
+
+	change := mgo.Change{
+		Update: bson.M{"$push": bson.M{"boxes": Box{GenerateRandIdFromName(boxName), boxName, nil}}},
+	}
+
+	var _, err = db.GetSession().DB("memory_boxes").C("boards").Find(bson.M{"id": boardId}).Apply(change, nil)
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
+}
+
+func (db DbConnection) AddCard(boardId string, boxId string, cardName string) bool {
+	log.Println("DbConnection.AddCard, boardId: " + boardId + ", boxId: " + boxId + ", cardName: " + cardName)
+
+	/*
+		db.boards.update(
+			{ 'id':'vfvfv-oXEdEnVsQa',
+			  'boxes.id': 'dsasv-XcPMDPcNFM'
+			},
+			{ $push:
+			   {
+				 'boxes.$.cards': {'id':'rain gear2222'}
+			   }
+			}
+		)
+	*/
+
+	cardId := GenerateRandIdFromName(cardName)
+
+	var toInsert string
+	toInsert += "{ 'id': '"
+	toInsert += cardId
+	toInsert += "'}"
+	change := mgo.Change{
+		Update: bson.M{"$push": bson.M{"boxes.$.cards": bson.M{"id": cardId}}},
+	}
+
+	var _, err = db.GetSession().DB("memory_boxes").C("boards").Find(bson.M{"id": boardId, "boxes.id": boxId}).Apply(change, nil)
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	err = db.GetSession().DB("memory_boxes").C("cards_data").Insert(&CardData{cardId, cardName, ""})
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
+}
+
+func (db DbConnection) UpdateCardData(cardId string, cardTitle string, cardData string) bool {
+	log.Println("DbConnection.UpdateCardData, cardId: " + cardId + " cardData:" + cardData + " cardTitle:" + cardTitle)
+
+	/*
+		db.cards_data.update(
+			{
+				'id':'vfvfv-oXEdEnVsQa'
+			},
+			{ $set:
+			   {
+				 'id':'vfvfv-oXEdEnVsQaaa',
+				 'title': 'rain gear2222',
+				 'content': 'qqqq',
+			   }
+			}
+		)
+	*/
+
+	cardsChange := mgo.Change{
+		Update: bson.M{"$set": bson.M{"title": cardTitle, "content": cardData}},
+	}
+
+	var _, err = db.GetSession().DB("memory_boxes").C("cards_data").Find(bson.M{"id": cardId}).Apply(cardsChange, nil)
+
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return true
 }
 
 func (db DbConnection) InsertUser(userName string) bool {

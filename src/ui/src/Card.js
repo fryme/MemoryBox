@@ -64,7 +64,7 @@ export default connect(
 
 
 const ItemSnippetStyle = {
-  padding: "5px 10px",
+  padding: "5px 5px",
   whiteSpace: "normal",
   wordBreak: "break-all",
   wordWrap: "break-world"

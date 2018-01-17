@@ -23,11 +23,12 @@ db.createCollection( "boards", {
         properties: {
             id: { bsonType: "string" },
             title: { bsonType: "string" },
-            boxes: {
+            bosxes: {
                 bsonType: "array",
-                required: [ "title" ],
+                required: [ "title", "id" ],
                 properties: {
                     title: { bsonType: "string" },
+                    title: { id: "string" },
                     cards: {
                         bsonType: "array",
                         required: [ "id" ],

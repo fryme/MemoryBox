@@ -42,7 +42,7 @@ export const receiveBoards = (json) => ({
 export const fetchCard = cardId => dispatch => {
   console.log("fetchCard " + cardId);
   dispatch(requestCards(cardId))
-  return fetch(`http://localhost:9090/api/v1/cards?cardId=` + cardId)
+  return fetch(`http://92.53.91.249:9090/api/v1/cards?cardId=` + cardId)
     .then(response => response.json())
     .then(json => dispatch(receiveCard(cardId, json)))
 }
@@ -58,14 +58,14 @@ export const fetchAllBoards = cardId => dispatch => {
                mode: 'cors',
                cache: 'default' };
     */           
-  return fetch(`http://localhost:9090/api/v1/boards`/*, myInit*/)
+  return fetch(`http://92.53.91.249:9090/api/v1/boards`/*, myInit*/)
     .then(response => response.json())
     .then(json => dispatch(receiveBoards(json)))
 }
 
 export const addBoard = boardName_ => dispatch => {
   console.log("addBoard " + boardName_);
-  return fetch(`http://localhost:9090/api/v1/boards/add`, {
+  return fetch(`http://92.53.91.249:9090/api/v1/boards/add`, {
     method: "POST",
     body: JSON.stringify({boardName: boardName_})
   })
@@ -74,7 +74,7 @@ export const addBoard = boardName_ => dispatch => {
 
 export const addBox = (boardId_, boxName_) => dispatch => {
   console.log("addBox " + boardId_ + " " + boxName_)
-  return fetch(`http://localhost:9090/api/v1/boxes/add`, {
+  return fetch(`http://92.53.91.249:9090/api/v1/boxes/add`, {
     method: "POST",
     body: JSON.stringify({boardId: boardId_, boxName: boxName_})
   })
@@ -83,7 +83,7 @@ export const addBox = (boardId_, boxName_) => dispatch => {
 
 export const addCard = (boardId_, boxId_, cardName_) => dispatch => {
   console.log("addBox " + boardId_ + " " + boxId_ + " " + cardName_)
-  return fetch(`http://localhost:9090/api/v1/cards`, {
+  return fetch(`http://92.53.91.249:9090/api/v1/cards`, {
     method: "POST",
     body: JSON.stringify({boardId: boardId_, boxId: boxId_, cardName: cardName_})
   }).then(dispatch(fetchAllBoards()))
@@ -91,7 +91,7 @@ export const addCard = (boardId_, boxId_, cardName_) => dispatch => {
 
 export const updateCardData = (cardId_, cardTitle_, cardData_) => dispatch => {
   console.log("updateCardData " + cardId_ + " " + cardTitle_)
-  return fetch(`http://localhost:9090/api/v1/cards/update`, {
+  return fetch(`http://92.53.91.249:9090/api/v1/cards/update`, {
     method: "POST",
     body: JSON.stringify({cardId: cardId_, cardTitle: cardTitle_, cardData: cardData_})
   }).then(dispatch(fetchCard(cardId_)))
